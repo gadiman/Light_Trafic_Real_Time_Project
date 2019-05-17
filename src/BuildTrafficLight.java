@@ -3,17 +3,15 @@ import javax.swing.JRadioButton;
 /*
  * Created on Mimuna 5767  upDate on Addar 5772 
  */
-
-/**
- * @author לויאן
- */
 public class BuildTrafficLight
 {
+
+
 
 	public static void main(String[] args) 
 	{
 		final int numOfLights=4+12+1;
-		Ramzor ramzorim[]=new Ramzor[numOfLights];
+		Ramzor[] ramzorim = new Ramzor[numOfLights];
 		ramzorim[0]=new Ramzor(3,40,430,110,472,110,514,110);
 		ramzorim[1]=new Ramzor(3,40,450,310,450,352,450,394);
 		ramzorim[2]=new Ramzor(3,40,310,630,280,605,250,580);
@@ -36,23 +34,11 @@ public class BuildTrafficLight
 
 		TrafficLightFrame tlf=new TrafficLightFrame(" תשע''ב installation of traffic lights",ramzorim);
 
-		new ShloshaAvot(ramzorim[0],tlf.myPanel,1);
-		new ShloshaAvot(ramzorim[1],tlf.myPanel,2);
-		new ShloshaAvot(ramzorim[2],tlf.myPanel,3);
-		new ShloshaAvot(ramzorim[3],tlf.myPanel,4);
-
-		new ShneyLuchot(ramzorim[4],tlf.myPanel);
-		new ShneyLuchot(ramzorim[5],tlf.myPanel);
-		new ShneyLuchot(ramzorim[9],tlf.myPanel);
-		new ShneyLuchot(ramzorim[10],tlf.myPanel);
-
-		new Echad(ramzorim[16],tlf.myPanel);
-
 		MyActionListener myListener=new MyActionListener();
 
-		JRadioButton butt[]=new JRadioButton[13]; 
+		JRadioButton butt[]=new JRadioButton[13];
 
-		for (int i=0;i<butt.length-1;i++) 
+		for (int i=0;i<butt.length-1;i++)
 		{
 			butt[i]  =new JRadioButton();
 			butt[i].setName(Integer.toString(i+4));
@@ -80,5 +66,11 @@ public class BuildTrafficLight
 		butt[12].setOpaque(false);
 		butt[12].addActionListener(myListener);
 		tlf.myPanel.add(butt[12]);
+
+		Controller controller = new Controller(ramzorim, butt, tlf);
+		controller.startTraffic();
+
 	}
+
+
 }

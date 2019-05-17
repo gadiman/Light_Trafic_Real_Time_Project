@@ -13,6 +13,11 @@ public class TrafficLightFrame extends JFrame
 	private final int WIDTH = 800, HEIGHT = 750;
 	TrafficLightPanel myPanel;
 
+	public TrafficLightFrame(TrafficLightFrame tlf_){
+
+		myPanel = new TrafficLightPanel(myPanel);
+	}
+
 	public TrafficLightFrame(String h, Ramzor[] ramzorim) 
 	{
 		super(h);

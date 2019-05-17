@@ -15,6 +15,13 @@ class TrafficLightPanel extends JPanel
 {
 	Ramzor  ramzorim[];
 
+	public TrafficLightPanel(TrafficLightPanel tmp){
+		super();
+		setLayout(null);
+		setBackground(Color.WHITE);
+		ramzorim = tmp.ramzorim;
+	}
+
 	public TrafficLightPanel(Ramzor[] ramzorim)
 	{
 		super();

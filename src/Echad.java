@@ -13,10 +13,13 @@ class Echad extends Thread
 {
 	Ramzor ramzor;
 	JPanel panel;
+	String color;
+
 	public Echad( Ramzor ramzor,JPanel panel)
 	{
 		this.ramzor=ramzor;
 		this.panel=panel;
+		this.color="Orange";
 		start();
 	}
 
@@ -26,10 +29,19 @@ class Echad extends Thread
 		{
 			while (true)
 			{
-				sleep(1000);
-				setLight(1,Color.GRAY);
-				sleep(1000);
-				setLight(1,Color.YELLOW);
+				switch (color) {
+					case "Orange" :
+						sleep(500);
+						setLight(1, Color.yellow);
+						color="Gray";
+						break;
+
+					case "Gray" :
+						sleep(500);
+						setLight(1, Color.gray);
+						color="Orange";
+						break;
+				}
 			}
 		} catch (InterruptedException e) {}
 

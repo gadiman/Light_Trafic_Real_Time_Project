@@ -10,8 +10,8 @@ public class Controller {
     MyActionListener myActionListener;
     int numOfButton;
 
-    Event64 evShabatMode, evRestOfWeekMode, evButtonPressed, evShabatButtonPressed, evShabatButtonReleased;
-    Event64[] evAckRedLight, evStartWorking;
+    Event64  evButtonPressed, evShabatButtonPressed, evShabatButtonReleased;
+    Event64[] evAckRedLight, evStartWorking,evShabatMode, evRestOfWeekMode;
     enum StateMode {REST_OF_WEEK, SHABAT, ACK_WAITING};
     StateMode stateMode;
     boolean restOfWeekMode;
@@ -31,8 +31,7 @@ public class Controller {
         stateMode = StateMode.REST_OF_WEEK;
         phase = Phase.START;
 
-        evShabatMode = new Event64();
-        evRestOfWeekMode = new Event64();
+
         evButtonPressed = new Event64();
         evShabatButtonPressed = new Event64();
         evShabatButtonReleased = new Event64();
@@ -40,13 +39,17 @@ public class Controller {
         evAckRedLight = new Event64[16];
         evStartWorking = new Event64[16];
         stillAlive = new Boolean [16];
+        evShabatMode = new Event64[16];
+        evRestOfWeekMode = new Event64[16];
 
         myActionListener_.init(evButtonPressed, evShabatButtonPressed, evShabatButtonReleased);
 
         for(int i = 0; i < 16; i++){
             evAckRedLight[i] = new Event64();
             evStartWorking[i] = new Event64();
-            stillAlive[i] = false;
+            stillAlive[i] = new Boolean(false);
+            evShabatMode[i] = new Event64();
+            evRestOfWeekMode[i] = new Event64();
         }
     }
 
@@ -64,12 +67,12 @@ public class Controller {
 
                                     // Create all the car's traffic light:
                                     for(int i = 0; i < 4; i++) {
-                                        new ShloshaAvot(ramzorim[i],tlf.myPanel,i+1,evShabatMode,evRestOfWeekMode,evAckRedLight[i], evStartWorking[i],stillAlive[i]);
+                                        new ShloshaAvot(ramzorim[i],tlf.myPanel,i+1,evShabatMode[i],evRestOfWeekMode[i],evAckRedLight[i], evStartWorking[i],stillAlive[i]);
                                     }
 
                                     // Create all the walker's traffic light:
                                     for(int i = 4; i <= 15; i++) {
-                                        new ShneyLuchot(ramzorim[i],tlf.myPanel,evShabatMode,evRestOfWeekMode,evAckRedLight[i], evStartWorking[i],stillAlive[i]);
+                                        new ShneyLuchot(ramzorim[i],tlf.myPanel,evShabatMode[i],evRestOfWeekMode[i],evAckRedLight[i], evStartWorking[i],stillAlive[i]);
                                     }
 
                                     // Create the Blinking light traffic:
@@ -189,11 +192,12 @@ public class Controller {
                             }
                         }
                     case ACK_WAITING:
-                        evShabatMode.sendEvent();
+                        for(int i=0; i<16;i++)
+                            evShabatMode[i].sendEvent();
                         System.out.println("E mode.");
 
-                        //for(int i=0; i<16; i++)
-                           // evAckRedLight[i].waitEvent();
+                       // for(int i=0; i<16; i++)
+                          // evAckRedLight[i].waitEvent();
 
                         stateMode =StateMode.SHABAT;
                         break;
@@ -201,7 +205,9 @@ public class Controller {
                     case SHABAT:
                         System.out.println("Entry to Shabat mode.");
                         evShabatButtonReleased.waitEvent();
-                        evRestOfWeekMode.sendEvent();
+
+                        for(int i=0;i<16;i++)
+                            evRestOfWeekMode[i].sendEvent();
 
                         restOfWeekMode = true;
                         stateMode = StateMode.REST_OF_WEEK;

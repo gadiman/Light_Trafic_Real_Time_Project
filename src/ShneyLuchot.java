@@ -70,17 +70,16 @@ class ShneyLuchot extends Thread
 									case RED:
 										evLightRedAck.sendEvent();
 
-										if(isStillAlive){
-											color = ColorLight.GREEN;
-											break;
-										}
-
 										if(evShabat.arrivedEvent()) {
 											evShabat.waitEvent();
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
 										}
 
+										if(isStillAlive){
+											color = ColorLight.GREEN;
+											break;
+										}
 										evStartWorking.waitEvent();
 
 										setLight(1,Color.GRAY);
@@ -114,6 +113,7 @@ class ShneyLuchot extends Thread
 						sleep(1000);
 						setLight(1,Color.GRAY);
 						setLight(2,Color.RED);
+						System.out.println("ooooooo");
 
 						evLightRedAck.sendEvent();
 

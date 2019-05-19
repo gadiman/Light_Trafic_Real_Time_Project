@@ -79,16 +79,16 @@ public class ShloshaAvot extends Thread
                                         //send Ack to controller I'm Red
                                         evLightRedAck.sendEvent();
 
-                                        if(isStillAlive){
-											color = ColorLight.GREEN;
-											break;
-										}
-
 										if(evShabat.arrivedEvent()) {
 											evShabat.waitEvent();
 											System.out.println("jjjjjjj");
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
+										}
+
+										if(isStillAlive){
+											color = ColorLight.GREEN;
+											break;
 										}
 
                                         evStartWorking.waitEvent();
@@ -113,14 +113,12 @@ public class ShloshaAvot extends Thread
 										setLight(3,Color.GREEN);
 										color = ColorLight.GREEN;
 
-										if(evShabat.arrivedEvent()){
+										if(evShabat.arrivedEvent()) {
 											evShabat.waitEvent();
 											System.out.println("jjjjjjj");
 
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
-										}else{
-											yield();
 										}
 
 										break;
@@ -136,14 +134,12 @@ public class ShloshaAvot extends Thread
 
 										color = ColorLight.RED;
 
-										if(evShabat.arrivedEvent()){
+										if(evShabat.arrivedEvent()) {
 											evShabat.waitEvent();
 											System.out.println("jjjjjjj");
 
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
-										}else{
-											yield();
 										}
 
 										break;
@@ -160,7 +156,7 @@ public class ShloshaAvot extends Thread
 
 							evLightRedAck.sendEvent();
 
-							System.out.println("jjjjjjj");
+							System.out.println("llllllll");
 
 
 							evRestOfWeek.waitEvent();

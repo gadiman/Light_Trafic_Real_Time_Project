@@ -67,7 +67,7 @@ public class BuildTrafficLight
 		butt[12].addActionListener(myListener);
 		tlf.myPanel.add(butt[12]);
 
-		Controller controller = new Controller(ramzorim, butt, tlf);
+		Controller controller = new Controller(ramzorim, butt, tlf,myListener);
 		controller.startTraffic();
 
 	}

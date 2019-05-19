@@ -21,6 +21,7 @@ public class ShloshaAvot extends Thread
 	Event64 evRestOfWeek;
 	Event64 evLightRedAck;
 	Event64 evStartWorking;
+	Boolean isStillAlive;
 
 
 
@@ -30,19 +31,22 @@ public class ShloshaAvot extends Thread
 
 	StateMode stateMode;
 	ColorLight color;
-	boolean restOfWeekMode;
+	boolean  restOfWeekMode;
 
 
 	private boolean stop=true;
 
 	public ShloshaAvot( Ramzor ramzor,JPanel panel,int key, Event64 evShabat_,
-                        Event64 evRestOfWeek_,Event64 evLightRed_,Event64 evStartWorking_)
+                        Event64 evRestOfWeek_,Event64 evLightRed_,Event64 evStartWorking_, Boolean isStillAlive_)
 	{
 		this.ramzor=ramzor;
 		this.panel=panel;
 		this.restOfWeekMode = true;
 		stateMode = StateMode.REST_OF_WEEK;
 		color = ColorLight.RED;
+
+		isStillAlive = isStillAlive_;
+
 		evTimer1 = new Event64();
 		evTimer2 = new Event64();
 		evTimer3 = new Event64();
@@ -74,7 +78,15 @@ public class ShloshaAvot extends Thread
 
                                         //send Ack to controller I'm Red
                                         evLightRedAck.sendEvent();
+
+                                        if(isStillAlive){
+											color = ColorLight.GREEN;
+											break;
+										}
+
+
                                         evStartWorking.waitEvent();
+
 										setLight(1,Color.GRAY);
 										setLight(2,Color.ORANGE);
 										setLight(3,Color.GRAY);
@@ -84,6 +96,7 @@ public class ShloshaAvot extends Thread
 
 										if(evShabat.arrivedEvent()){
 											evShabat.waitEvent();
+											System.out.println("Shabat");
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
 										}else{
@@ -141,13 +154,13 @@ public class ShloshaAvot extends Thread
 							setLight(1,Color.GRAY);
 							setLight(2,Color.GRAY);
 							setLight(3,Color.RED);
-							if(evRestOfWeek.arrivedEvent()){
-								evRestOfWeek.waitEvent();
-								stateMode = StateMode.REST_OF_WEEK;
-								restOfWeekMode = true;
-								color = ColorLight.START;
-							}
 
+							evLightRedAck.sendEvent();
+
+							evRestOfWeek.waitEvent();
+							stateMode = StateMode.REST_OF_WEEK;
+							restOfWeekMode = true;
+							color = ColorLight.RED;
 
 							 break;
 

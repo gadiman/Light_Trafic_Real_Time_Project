@@ -19,7 +19,7 @@ class ShneyLuchot extends Thread
 	Event64 evRestOfWeek;
 	Event64 evLightRedAck;
 	Event64 evStartWorking;
-
+	Boolean isStillAlive;
 
 
 	MyTimer72 timer ;
@@ -33,7 +33,7 @@ class ShneyLuchot extends Thread
 	boolean restOfWeekMode;
 
 	public ShneyLuchot( Ramzor ramzor,JPanel panel,Event64 evShabat_,
-						Event64 evRestOfWeek_,Event64 evRedLigtAck_,Event64 evStartWorking_)
+						Event64 evRestOfWeek_,Event64 evRedLigtAck_,Event64 evStartWorking_,Boolean isStillAlive_)
 	{
 		this.ramzor=ramzor;
 		this.panel=panel;
@@ -46,6 +46,7 @@ class ShneyLuchot extends Thread
 		evLightRedAck = evRedLigtAck_;
 		evRestOfWeek = evRestOfWeek_;
 		evStartWorking = evStartWorking_;
+		isStillAlive = isStillAlive_;
 		start();
 	}
 
@@ -68,6 +69,11 @@ class ShneyLuchot extends Thread
 
 									case RED:
 										evLightRedAck.sendEvent();
+
+										if(isStillAlive){
+											color = ColorLight.GREEN;
+											break;
+										}
 										evStartWorking.waitEvent();
 
 										setLight(1,Color.GRAY);
@@ -106,14 +112,18 @@ class ShneyLuchot extends Thread
 					case SHABAT:
 						sleep(1000);
 						setLight(1,Color.GRAY);
-						setLight(2,Color.GRAY);
+						setLight(2,Color.RED);
 
-						if(evRestOfWeek.arrivedEvent()){
-							evRestOfWeek.waitEvent();
-							stateMode = StateMode.REST_OF_WEEK;
-							restOfWeekMode = true;
-							color = ColorLight.START;
-						}
+						evLightRedAck.sendEvent();
+
+						evRestOfWeek.waitEvent();
+						stateMode = StateMode.REST_OF_WEEK;
+						restOfWeekMode = true;
+						color = ColorLight.RED;
+
+
+
+
 
 						break;
 

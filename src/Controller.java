@@ -202,14 +202,25 @@ public class Controller {
 
 
                                 case ACK_WAITING:
-
-                                    if(numOfPhase == NumOfPhase.A) {
+                                    if(evShabatButtonPressed.arrivedEvent()){
+                                        evShabatButtonPressed.waitEvent();
+                                        restOfWeekMode = false;
+                                        stateMode = StateMode.ACK_WAITING;
+                                        break;
+                                    }
+                                    else if(evButtonPressed.arrivedEvent()){
+                                        numOfButton = (int)evButtonPressed.waitEvent();
+                                        buttonPressed(numOfButton);
+                                        break;
+                                    }
+                                    else if(numOfPhase == NumOfPhase.A) {
                                         ackWaitingFromPhase_A();
                                     }
                                     else if(numOfPhase == NumOfPhase.B)
                                         ackWaitingFromPhase_B();
-                                    else
+                                    else if(numOfPhase == NumOfPhase.C)
                                         ackWaitingFromPhase_C();
+
 
                                     break;
                             }

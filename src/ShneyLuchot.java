@@ -74,19 +74,20 @@ class ShneyLuchot extends Thread
 											color = ColorLight.GREEN;
 											break;
 										}
+
+										if(evShabat.arrivedEvent()) {
+											evShabat.waitEvent();
+											stateMode = StateMode.SHABAT;
+											restOfWeekMode = false;
+										}
+
 										evStartWorking.waitEvent();
 
 										setLight(1,Color.GRAY);
 										setLight(2,Color.GREEN);
 										color = ColorLight.GREEN;
 
-										if(evShabat.arrivedEvent()){
-											evShabat.waitEvent();
-											stateMode = StateMode.SHABAT;
-											restOfWeekMode = false;
-										}else{
-											yield();
-										}
+
 
 										break;
 

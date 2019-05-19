@@ -188,6 +188,16 @@ public class Controller {
                                     break;
                             }
                         }
+                    case ACK_WAITING:
+                        evShabatMode.sendEvent();
+                        System.out.println("E mode.");
+
+                        //for(int i=0; i<16; i++)
+                           // evAckRedLight[i].waitEvent();
+
+                        stateMode =StateMode.SHABAT;
+                        break;
+
                     case SHABAT:
                         System.out.println("Entry to Shabat mode.");
                         evShabatButtonReleased.waitEvent();
@@ -200,12 +210,8 @@ public class Controller {
                         for(int i = 0; i < 16; i++)
                             stillAlive[i] = false;
                         break;
-                    case ACK_WAITING:
-                        evShabatMode.sendEvent();
-                        ackWaitingFromPhase_A();
-                        ackWaitingFromPhase_B();
-                        ackWaitingFromPhase_C();
-                        break;
+
+
                 }
             }
         } catch (InterruptedException e) {}

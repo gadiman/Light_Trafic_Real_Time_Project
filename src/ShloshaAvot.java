@@ -84,6 +84,12 @@ public class ShloshaAvot extends Thread
 											break;
 										}
 
+										if(evShabat.arrivedEvent()) {
+											evShabat.waitEvent();
+											System.out.println("jjjjjjj");
+											stateMode = StateMode.SHABAT;
+											restOfWeekMode = false;
+										}
 
                                         evStartWorking.waitEvent();
 
@@ -94,14 +100,7 @@ public class ShloshaAvot extends Thread
 
 										color = ColorLight.ORANGE;
 
-										if(evShabat.arrivedEvent()){
-											evShabat.waitEvent();
-											System.out.println("Shabat");
-											stateMode = StateMode.SHABAT;
-											restOfWeekMode = false;
-										}else{
-											yield();
-										}
+
 
 										break;
 
@@ -116,6 +115,8 @@ public class ShloshaAvot extends Thread
 
 										if(evShabat.arrivedEvent()){
 											evShabat.waitEvent();
+											System.out.println("jjjjjjj");
+
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
 										}else{
@@ -137,6 +138,8 @@ public class ShloshaAvot extends Thread
 
 										if(evShabat.arrivedEvent()){
 											evShabat.waitEvent();
+											System.out.println("jjjjjjj");
+
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
 										}else{
@@ -157,7 +160,12 @@ public class ShloshaAvot extends Thread
 
 							evLightRedAck.sendEvent();
 
+							System.out.println("jjjjjjj");
+
+
 							evRestOfWeek.waitEvent();
+
+
 							stateMode = StateMode.REST_OF_WEEK;
 							restOfWeekMode = true;
 							color = ColorLight.RED;

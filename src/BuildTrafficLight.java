@@ -5,13 +5,11 @@ import javax.swing.JRadioButton;
  */
 public class BuildTrafficLight
 {
-
-
-
 	public static void main(String[] args) 
 	{
-		final int numOfLights=4+12+1;
+		final int numOfLights = 4 + 12 + 1;
 		Ramzor[] ramzorim = new Ramzor[numOfLights];
+
 		ramzorim[0]=new Ramzor(3,40,430,110,472,110,514,110);
 		ramzorim[1]=new Ramzor(3,40,450,310,450,352,450,394);
 		ramzorim[2]=new Ramzor(3,40,310,630,280,605,250,580);
@@ -32,7 +30,7 @@ public class BuildTrafficLight
 
 		ramzorim[16]=new Ramzor(1,30,555,645);
 
-		TrafficLightFrame tlf=new TrafficLightFrame(" úùò''á installation of traffic lights",ramzorim);
+		TrafficLightFrame tlf=new TrafficLightFrame(" ï¿½ï¿½ï¿½''ï¿½ installation of traffic lights",ramzorim);
 
 		MyActionListener myListener=new MyActionListener();
 
@@ -62,15 +60,12 @@ public class BuildTrafficLight
 		butt[12]  =new JRadioButton();
 		butt[12].setName(Integer.toString(16));
 		butt[12].setBounds(50,30, 55, 20);
-		butt[12].setText("ùáú");
+		butt[12].setText("×©×‘×ª");
 		butt[12].setOpaque(false);
 		butt[12].addActionListener(myListener);
 		tlf.myPanel.add(butt[12]);
 
 		Controller controller = new Controller(ramzorim, butt, tlf,myListener);
 		controller.startTraffic();
-
 	}
-
-
 }

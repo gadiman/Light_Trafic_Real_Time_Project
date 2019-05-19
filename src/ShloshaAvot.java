@@ -7,7 +7,7 @@ import javax.swing.JPanel;
  */
 
 /**
- * @author לויאן
+ * @author Arie & Gad.
  */
 
 public class ShloshaAvot extends Thread

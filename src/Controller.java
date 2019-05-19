@@ -100,6 +100,18 @@ public class Controller {
 
                                 case PHASE_A:
 
+                                    if(evShabatButtonPressed.arrivedEvent()){
+                                        evShabatButtonPressed.waitEvent();
+                                        restOfWeekMode = false;
+                                        stateMode = StateMode.ACK_WAITING;
+                                        break;
+                                    }
+                                    else if(evButtonPressed.arrivedEvent()){
+                                        numOfButton = (int)evButtonPressed.waitEvent();
+                                        buttonPressed(numOfButton);
+                                        break;
+                                    }
+
                                     evStatWorking[0].sendEvent();
                                     evStatWorking[6].sendEvent();
                                     evStatWorking[7].sendEvent();
@@ -116,6 +128,15 @@ public class Controller {
                                     stillAlive[13] = true;
 
 
+
+
+                                    phase = Phase.ACK_WAITING;
+                                    numOfPhase = NumOfPhase.A;
+
+
+                                    break;
+
+                                case PHASE_B:
                                     if(evShabatButtonPressed.arrivedEvent()){
                                         evShabatButtonPressed.waitEvent();
                                         restOfWeekMode = false;
@@ -128,13 +149,7 @@ public class Controller {
                                         break;
                                     }
 
-                                    phase = Phase.ACK_WAITING;
-                                    numOfPhase = NumOfPhase.A;
 
-
-                                    break;
-
-                                case PHASE_B:
                                     evStatWorking[1].sendEvent();
                                     evStatWorking[4].sendEvent();
                                     evStatWorking[5].sendEvent();
@@ -155,6 +170,14 @@ public class Controller {
                                     stillAlive[4] = true;
                                     stillAlive[5]=true;
 
+
+
+                                    phase = Phase.ACK_WAITING;
+                                    numOfPhase = NumOfPhase.B;
+                                    break;
+
+                                case PHASE_C:
+
                                     if(evShabatButtonPressed.arrivedEvent()){
                                         evShabatButtonPressed.waitEvent();
                                         restOfWeekMode = false;
@@ -167,11 +190,6 @@ public class Controller {
                                         break;
                                     }
 
-                                    phase = Phase.ACK_WAITING;
-                                    numOfPhase = NumOfPhase.B;
-                                    break;
-
-                                case PHASE_C:
                                     evStatWorking[2].sendEvent();
                                     evStatWorking[3].sendEvent();
                                     evStatWorking[4].sendEvent();
@@ -184,17 +202,7 @@ public class Controller {
                                     stillAlive[4] = false;
                                     stillAlive[5]=false;
 
-                                    if(evShabatButtonPressed.arrivedEvent()){
-                                        evShabatButtonPressed.waitEvent();
-                                        restOfWeekMode = false;
-                                        stateMode = StateMode.ACK_WAITING;
-                                        break;
-                                    }
-                                    else if(evButtonPressed.arrivedEvent()){
-                                        numOfButton = (int)evButtonPressed.waitEvent();
-                                        buttonPressed(numOfButton);
-                                        break;
-                                    }
+
 
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.C;
@@ -202,20 +210,9 @@ public class Controller {
 
 
                                 case ACK_WAITING:
-                                    if(evShabatButtonPressed.arrivedEvent()){
-                                        evShabatButtonPressed.waitEvent();
-                                        restOfWeekMode = false;
-                                        stateMode = StateMode.ACK_WAITING;
-                                        break;
-                                    }
-                                    else if(evButtonPressed.arrivedEvent()){
-                                        numOfButton = (int)evButtonPressed.waitEvent();
-                                        buttonPressed(numOfButton);
-                                        break;
-                                    }
-                                    else if(numOfPhase == NumOfPhase.A) {
+
+                                    if(numOfPhase == NumOfPhase.A)
                                         ackWaitingFromPhase_A();
-                                    }
                                     else if(numOfPhase == NumOfPhase.B)
                                         ackWaitingFromPhase_B();
                                     else if(numOfPhase == NumOfPhase.C)

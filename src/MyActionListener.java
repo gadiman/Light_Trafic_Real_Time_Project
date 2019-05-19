@@ -34,7 +34,6 @@ public class MyActionListener implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		JRadioButton butt=(JRadioButton)e.getSource();
-		System.out.println(butt.getName());
 		int key = Integer.parseInt(butt.getName());
 
 		if(key == 16){

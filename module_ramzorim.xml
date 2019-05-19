@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_ramzorim" default="compile.module.ramzorim">
+  <dirname property="module.ramzorim.basedir" file="${ant.file.module_ramzorim}"/>
+  
+  <property name="module.jdk.home.ramzorim" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ramzorim" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ramzorim" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ramzorim" value="-encoding windows-1255 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="ramzorim.output.dir" value="${module.ramzorim.basedir}/out/production/Ramzorim"/>
+  <property name="ramzorim.testoutput.dir" value="${module.ramzorim.basedir}/out/test/Ramzorim"/>
+  
+  <path id="ramzorim.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ramzorim.module.production.classpath">
+    <path refid="${module.jdk.classpath.ramzorim}"/>
+  </path>
+  
+  <path id="ramzorim.runtime.production.module.classpath">
+    <pathelement location="${ramzorim.output.dir}"/>
+  </path>
+  
+  <path id="ramzorim.module.classpath">
+    <path refid="${module.jdk.classpath.ramzorim}"/>
+    <pathelement location="${ramzorim.output.dir}"/>
+  </path>
+  
+  <path id="ramzorim.runtime.module.classpath">
+    <pathelement location="${ramzorim.testoutput.dir}"/>
+    <pathelement location="${ramzorim.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ramzorim">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ramzorim">
+    <patternset refid="excluded.from.module.ramzorim"/>
+  </patternset>
+  
+  <path id="ramzorim.module.sourcepath">
+    <dirset dir="${module.ramzorim.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.ramzorim" depends="compile.module.ramzorim.production,compile.module.ramzorim.tests" description="Compile module Ramzorim"/>
+  
+  <target name="compile.module.ramzorim.production" depends="register.custom.compilers" description="Compile module Ramzorim; production classes">
+    <mkdir dir="${ramzorim.output.dir}"/>
+    <javac2 destdir="${ramzorim.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ramzorim}/javac">
+      <compilerarg line="${compiler.args.ramzorim}"/>
+      <bootclasspath refid="ramzorim.module.bootclasspath"/>
+      <classpath refid="ramzorim.module.production.classpath"/>
+      <src refid="ramzorim.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ramzorim"/>
+    </javac2>
+    
+    <copy todir="${ramzorim.output.dir}">
+      <fileset dir="${module.ramzorim.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.ramzorim.tests" depends="register.custom.compilers,compile.module.ramzorim.production" description="compile module Ramzorim; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.ramzorim" description="cleanup module">
+    <delete dir="${ramzorim.output.dir}"/>
+    <delete dir="${ramzorim.testoutput.dir}"/>
+  </target>
+</project>

@@ -1,8 +1,10 @@
-// event with Object,   Tishrey 5764
-// filename  : Event64.java
-
 import java.lang.Thread;
-class Event64 
+
+/**
+ * It represent an event with object.
+ * @author Arie and Gad.
+ */
+class Event64
 {
 	private Object localData;
 	private boolean inUse;
@@ -25,16 +27,14 @@ class Event64
 		return inUse;
 	}
 
-	public synchronized Object waitEvent()
-	{
+	public synchronized Object waitEvent() {
 		if (isWaitingForMe)
 			notify();
 
 		if (!inUse) 
 		{
 			isWaitingForMe = true;
-			try
-			{ 
+			try {
 				wait();
 			} catch(InterruptedException e){ } ;
 		}
@@ -55,8 +55,7 @@ class Event64
 		while (!trySendEvent(aData)) Thread.yield();
 	}
 
-	public synchronized boolean trySendEvent(Object aData)
-	{ 
+	public synchronized boolean trySendEvent(Object aData) {
 		if (inUse)
 			return false;
 
@@ -79,26 +78,22 @@ class Event64
 		while (!trySendSyncEvent(aData)) Thread.yield();
 	}
 
-	public synchronized boolean trySendSyncEvent(Object aData)
-	{
+	public synchronized boolean trySendSyncEvent(Object aData) {
 		if (inUse)
 			return false;
 
 		inUse = true;
 		localData = aData;
 
-		if (isWaitingForMe) 
+		if (isWaitingForMe)
 			notify();
-		else 
-		{
+		else {
 			isWaitingForMe = true;
-			try 
-			{
+			try {
 				wait();
 			} catch(InterruptedException exce) {};
 		}
 
 		return true;
 	}
-
 }

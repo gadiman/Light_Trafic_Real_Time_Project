@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 
 public class CarMooving extends Thread
 {
-	JLabel myLabel;
-	JPanel myPanel;
+    private JLabel myLabel;
+    private JPanel myPanel;
 	private ShloshaAvot myRamzor;
 	private int key;
-	int x, dx;
-	int y, dy;
-	ImageIcon imageIcon;
+    private int x, dx;
+    private int y, dy;
+    private ImageIcon imageIcon;
 
 	public CarMooving(JPanel myPanel, ShloshaAvot myRamzor,int key) 
 	{

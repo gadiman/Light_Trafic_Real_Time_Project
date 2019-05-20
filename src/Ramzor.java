@@ -12,7 +12,7 @@ class Ramzor
 	private int numOfLights;
 	private int xP[],yP[];
 	int diameter;
-	private Color colorLight[];
+	Color colorLight[];
 
 	Ramzor(int num,int dia,int x0,int y0)
 	{

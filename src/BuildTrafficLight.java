@@ -1,7 +1,8 @@
 import javax.swing.JRadioButton;
 
-/*
- * Created on Mimuna 5767  upDate on Addar 5772 
+/**
+ * It represent a main function for manage the traffic system.
+ * @author Arie and Gad.
  */
 public class BuildTrafficLight
 {
@@ -30,15 +31,15 @@ public class BuildTrafficLight
 
 		ramzorim[16]=new Ramzor(1,30,555,645);
 
-		TrafficLightFrame tlf=new TrafficLightFrame(" ���''� installation of traffic lights",ramzorim);
+		TrafficLightFrame tlf = new TrafficLightFrame(" ���''� installation of traffic lights", ramzorim);
 
-		MyActionListener myListener=new MyActionListener();
+		MyActionListener myListener = new MyActionListener();
 
-		JRadioButton butt[]=new JRadioButton[13];
+		JRadioButton butt[] = new JRadioButton[13];
 
-		for (int i=0;i<butt.length-1;i++)
+		for (int i = 0; i < butt.length - 1; i++)
 		{
-			butt[i]  =new JRadioButton();
+			butt[i] = new JRadioButton();
 			butt[i].setName(Integer.toString(i+4));
 			butt[i].setOpaque(false);
 			butt[i].addActionListener(myListener);
@@ -57,7 +58,7 @@ public class BuildTrafficLight
 		butt[10].setBounds(220,218, 18, 18);
 		butt[11].setBounds(220,30, 18, 18);
 
-		butt[12]  =new JRadioButton();
+		butt[12] = new JRadioButton();
 		butt[12].setName(Integer.toString(16));
 		butt[12].setBounds(50,30, 55, 20);
 		butt[12].setText("שבת");
@@ -65,7 +66,7 @@ public class BuildTrafficLight
 		butt[12].addActionListener(myListener);
 		tlf.myPanel.add(butt[12]);
 
-		Controller controller = new Controller(ramzorim, butt, tlf,myListener);
+		Controller controller = new Controller(ramzorim, butt, tlf, myListener);
 		controller.startTraffic();
 	}
 }

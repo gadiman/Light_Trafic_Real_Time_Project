@@ -68,9 +68,7 @@ public class CarMooving extends Thread
 
 		while (!finish())
 		{
-			if (myRamzor.isStop() && toStop())
-				;
-			else
+			if (!myRamzor.isStop() || !toStop())
 			{
 				x += dx;
 				y += dy;

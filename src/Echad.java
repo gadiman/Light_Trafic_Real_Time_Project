@@ -3,6 +3,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 /**
+ * It represent a traffic light with one orange blinked light.
  * @author Arie and Gad.
  */
 class Echad extends Thread
@@ -39,7 +40,6 @@ class Echad extends Thread
 				}
 			}
 		} catch (InterruptedException e) {}
-
 	}
 
 	private void setLight(int place, Color color)

@@ -103,7 +103,7 @@ public class CarMooving extends Thread
 				return false;
 			}
 		case 3:
-			if (y>600)
+			if (y > 600)
 			{
 				dx = 0;
 				dy = 30;

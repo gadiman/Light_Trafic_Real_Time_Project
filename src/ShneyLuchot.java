@@ -19,12 +19,11 @@ class ShneyLuchot extends Thread
 	Event64 evRestOfWeek;
 	Event64 evLightRedAck;
 	Event64 evStartWorking;
-	Boolean isStillAlive;
 
 
 	MyTimer72 timer ;
 	enum StateMode {REST_OF_WEEK,SHABAT};
-	enum ColorLight {RED, GREEN, START}
+	enum ColorLight {RED, GREEN}
 
 	StateMode stateMode;
 	ColorLight color;
@@ -33,7 +32,7 @@ class ShneyLuchot extends Thread
 	boolean restOfWeekMode;
 
 	public ShneyLuchot( Ramzor ramzor,JPanel panel,Event64 evShabat_,
-						Event64 evRestOfWeek_,Event64 evRedLigtAck_,Event64 evStartWorking_,Boolean isStillAlive_)
+						Event64 evRestOfWeek_,Event64 evRedLigtAck_,Event64 evStartWorking_)
 	{
 		this.ramzor=ramzor;
 		this.panel=panel;
@@ -46,7 +45,7 @@ class ShneyLuchot extends Thread
 		evLightRedAck = evRedLigtAck_;
 		evRestOfWeek = evRestOfWeek_;
 		evStartWorking = evStartWorking_;
-		isStillAlive = isStillAlive_;
+
 		start();
 	}
 
@@ -65,68 +64,73 @@ class ShneyLuchot extends Thread
 							while(restOfWeekMode) {
 
 								switch (color) {
-
-
 									case RED:
-										evLightRedAck.sendEvent();
 
-										if(evShabat.arrivedEvent()) {
+
+                                        if(evShabat.arrivedEvent()){
+											evShabat.waitEvent();
+											stateMode = StateMode.SHABAT;
+											restOfWeekMode = false;
+										}else if(evStartWorking.arrivedEvent()){
+                                            evStartWorking.waitEvent();
+                                            setLight(1,Color.GRAY);
+                                            setLight(2,Color.GREEN);
+                                            color = ColorLight.GREEN;
+                                        }
+                                        else
+                                            yield();
+
+										break;
+
+									case GREEN:
+										if(evShabat.arrivedEvent()){
 											evShabat.waitEvent();
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
 										}
 
-										if(isStillAlive){
-											color = ColorLight.GREEN;
-											break;
-										}
-										evStartWorking.waitEvent();
-
-										setLight(1,Color.GRAY);
-										setLight(2,Color.GREEN);
-										color = ColorLight.GREEN;
-
-
-
-										break;
-
-									case GREEN:
 										new MyTimer72(8000, evTimer2);
 										evTimer2.waitEvent();
 										sleep(1000);
 										setLight(1,Color.RED);
 										setLight(2,Color.GRAY);
-										color = ColorLight.RED;
 
-										if(evShabat.arrivedEvent()){
-											evShabat.waitEvent();
-											stateMode = StateMode.SHABAT;
-											restOfWeekMode = false;
-										}else{
-											yield();
-										}
+                                        evLightRedAck.sendEvent();
+
+
+
+                                        color = ColorLight.RED;
 
 										break;
 								}
 					        }
 					case SHABAT:
 						sleep(1000);
-						setLight(1,Color.GRAY);
-						setLight(2,Color.RED);
-						System.out.println("ooooooo");
+						setLight(1,Color.RED);
+						setLight(2,Color.GRAY);
+						sleep(2000);
 
 						evLightRedAck.sendEvent();
 
+                        sleep(1000);
+                        setLight(1,Color.GRAY);
+                        setLight(2,Color.GRAY);
+
+
 						evRestOfWeek.waitEvent();
+
+
 						stateMode = StateMode.REST_OF_WEEK;
 						restOfWeekMode = true;
 						color = ColorLight.RED;
 
-
-
+                        setLight(1,Color.RED);
+                        setLight(2,Color.GRAY);
+                        evLightRedAck.sendEvent();
 
 
 						break;
+
 
 
 				}

@@ -5,13 +5,12 @@ import static java.lang.Thread.sleep;
 public class Controller {
     Ramzor ramzorim[];
     JRadioButton buttons[];
-    Boolean[] stillAlive;
     TrafficLightFrame tlf;
     MyActionListener myActionListener;
     int numOfButton;
 
-    Event64  evButtonPressed, evShabatButtonPressed, evShabatButtonReleased;
-    Event64[] evAckRedLight, evStartWorking,evShabatMode, evRestOfWeekMode;
+    Event64 evButtonPressed, evShabatButtonPressed, evShabatButtonReleased;
+    Event64[] evAckRedLight, evStartWorking, evShabatMode, evRestOfWeekMode;
     enum StateMode {REST_OF_WEEK, SHABAT, ACK_WAITING};
     StateMode stateMode;
     boolean restOfWeekMode;
@@ -31,25 +30,22 @@ public class Controller {
         stateMode = StateMode.REST_OF_WEEK;
         phase = Phase.START;
 
-
+        evShabatMode = new Event64[16];
+        evRestOfWeekMode = new Event64[16];
         evButtonPressed = new Event64();
         evShabatButtonPressed = new Event64();
         evShabatButtonReleased = new Event64();
 
         evAckRedLight = new Event64[16];
         evStartWorking = new Event64[16];
-        stillAlive = new Boolean [16];
-        evShabatMode = new Event64[16];
-        evRestOfWeekMode = new Event64[16];
 
         myActionListener_.init(evButtonPressed, evShabatButtonPressed, evShabatButtonReleased);
 
         for(int i = 0; i < 16; i++){
             evAckRedLight[i] = new Event64();
             evStartWorking[i] = new Event64();
-            stillAlive[i] = new Boolean(false);
             evShabatMode[i] = new Event64();
-            evRestOfWeekMode[i] = new Event64();
+            evRestOfWeekMode[i]= new Event64();
         }
     }
 
@@ -60,32 +56,32 @@ public class Controller {
             {
                 switch (stateMode) {
                     case REST_OF_WEEK:
+
                         while(restOfWeekMode) {
                             switch (phase) {
                                 case START:
+
                                     sleep(1000);
 
                                     // Create all the car's traffic light:
                                     for(int i = 0; i < 4; i++) {
-                                        new ShloshaAvot(ramzorim[i],tlf.myPanel,i+1,evShabatMode[i],evRestOfWeekMode[i],evAckRedLight[i], evStartWorking[i],stillAlive[i]);
+                                        new ShloshaAvot(ramzorim[i],tlf.myPanel,i+1,evShabatMode[i],evRestOfWeekMode[i],evAckRedLight[i], evStartWorking[i]);
                                     }
 
                                     // Create all the walker's traffic light:
                                     for(int i = 4; i <= 15; i++) {
-                                        new ShneyLuchot(ramzorim[i],tlf.myPanel,evShabatMode[i],evRestOfWeekMode[i],evAckRedLight[i], evStartWorking[i],stillAlive[i]);
+                                        new ShneyLuchot(ramzorim[i],tlf.myPanel,evShabatMode[i],evRestOfWeekMode[i],evAckRedLight[i], evStartWorking[i]);
                                     }
 
                                     // Create the Blinking light traffic:
                                     new Echad(ramzorim[16],tlf.myPanel);
 
-                                    // Waiting to Ack from All traffic lights (They are red now):
-                                    for( int i = 0; i < 15; i++) {
-                                        evAckRedLight[i].waitEvent();
-                                    }
+
 
                                     // Moving to Phase A:
                                     phase = Phase.PHASE_A;
                                     break;
+
                                 case PHASE_A:
                                     if (evShabatButtonPressed.arrivedEvent()) {
                                         evShabatButtonPressed.waitEvent();
@@ -99,24 +95,37 @@ public class Controller {
                                         break;
                                     }
 
-                                    evStartWorking[0].sendEvent();
-                                    evStartWorking[6].sendEvent();
-                                    evStartWorking[7].sendEvent();
-                                    evStartWorking[9].sendEvent();
-                                    evStartWorking[10].sendEvent();
-                                    evStartWorking[12].sendEvent();
-                                    evStartWorking[13].sendEvent();
 
-                                    stillAlive[6] = true;
-                                    stillAlive[7] = true;
-                                    stillAlive[9] = true;
-                                    stillAlive[10] = true;
-                                    stillAlive[12] = true;
-                                    stillAlive[13] = true;
+                                    evStartWorking[0].sendEvent(false);
+                                    evStartWorking[6].sendEvent(false);
+                                    evStartWorking[7].sendEvent(false);
+                                    evStartWorking[8].sendEvent(false);
+                                    evStartWorking[9].sendEvent(false);
+                                    evStartWorking[10].sendEvent(false);
+                                    evStartWorking[11].sendEvent(false);
+                                    evStartWorking[12].sendEvent(false);
+                                    evStartWorking[13].sendEvent(false);
+
+
+                                    buttons[0].setEnabled(false);
+                                    buttons[1].setEnabled(false);
+                                    buttons[2].setEnabled(false);
+                                    buttons[3].setEnabled(false);
+                                    buttons[4].setEnabled(false);
+                                    buttons[5].setEnabled(false);
+                                    buttons[6].setEnabled(false);
+                                    buttons[7].setEnabled(false);
+                                    buttons[8].setEnabled(false);
+                                    buttons[9].setEnabled(false);
+                                    buttons[10].setEnabled(true);
+                                    buttons[11].setEnabled(true);
+
+
 
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.A;
                                     break;
+
                                 case PHASE_B:
                                     if (evShabatButtonPressed.arrivedEvent()) {
                                         evShabatButtonPressed.waitEvent();
@@ -130,29 +139,34 @@ public class Controller {
                                         break;
                                     }
 
-                                    evStartWorking[1].sendEvent();
-                                    evStartWorking[4].sendEvent();
-                                    evStartWorking[5].sendEvent();
-                                    evStartWorking[6].sendEvent();
-                                    evStartWorking[7].sendEvent();
-                                    evStartWorking[9].sendEvent();
-                                    evStartWorking[10].sendEvent();
-                                    evStartWorking[12].sendEvent();
-                                    evStartWorking[13].sendEvent();
+                                    evStartWorking[1].sendEvent(false);
+                                    evStartWorking[4].sendEvent(false);
+                                    evStartWorking[5].sendEvent(false);
+                                    evStartWorking[6].sendEvent(false);
+                                    evStartWorking[7].sendEvent(false);
+                                    evStartWorking[9].sendEvent(false);
+                                    evStartWorking[10].sendEvent(false);
+                                    evStartWorking[12].sendEvent(false);
+                                    evStartWorking[13].sendEvent(false);
 
-                                    stillAlive[6] = false;
-                                    stillAlive[7] = false;
-                                    stillAlive[9] = false;
-                                    stillAlive[10] = false;
-                                    stillAlive[12] = false;
-                                    stillAlive[13] = false;
+                                    buttons[0].setEnabled(false);
+                                    buttons[1].setEnabled(false);
+                                    buttons[2].setEnabled(false);
+                                    buttons[3].setEnabled(false);
+                                    buttons[4].setEnabled(false);
+                                    buttons[5].setEnabled(false);
+                                    buttons[6].setEnabled(false);
+                                    buttons[7].setEnabled(false);
+                                    buttons[8].setEnabled(false);
+                                    buttons[9].setEnabled(false);
+                                    buttons[10].setEnabled(false);
+                                    buttons[11].setEnabled(false);
 
-                                    stillAlive[4] = true;
-                                    stillAlive[5] = true;
 
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.B;
                                     break;
+
                                 case PHASE_C:
                                     if (evShabatButtonPressed.arrivedEvent()) {
                                         evShabatButtonPressed.waitEvent();
@@ -166,21 +180,32 @@ public class Controller {
                                         break;
                                     }
 
-                                    evStartWorking[2].sendEvent();
-                                    evStartWorking[3].sendEvent();
-                                    evStartWorking[4].sendEvent();
-                                    evStartWorking[5].sendEvent();
-                                    evStartWorking[8].sendEvent();
-                                    evStartWorking[11].sendEvent();
-                                    evStartWorking[14].sendEvent();
-                                    evStartWorking[15].sendEvent();
+                                    evStartWorking[2].sendEvent(false);
+                                    evStartWorking[3].sendEvent(false);
+                                    evStartWorking[4].sendEvent(false);
+                                    evStartWorking[5].sendEvent(false);
+                                    evStartWorking[8].sendEvent(false);
+                                    evStartWorking[11].sendEvent(false);
+                                    evStartWorking[14].sendEvent(false);
+                                    evStartWorking[15].sendEvent(false);
 
-                                    stillAlive[4] = false;
-                                    stillAlive[5]=false;
+                                    buttons[0].setEnabled(false);
+                                    buttons[1].setEnabled(false);
+                                    buttons[2].setEnabled(false);
+                                    buttons[3].setEnabled(false);
+                                    buttons[4].setEnabled(false);
+                                    buttons[5].setEnabled(false);
+                                    buttons[6].setEnabled(false);
+                                    buttons[7].setEnabled(false);
+                                    buttons[8].setEnabled(false);
+                                    buttons[9].setEnabled(false);
+                                    buttons[10].setEnabled(false);
+                                    buttons[11].setEnabled(false);
 
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.C;
                                     break;
+
                                 case ACK_WAITING:
                                     if (numOfPhase == NumOfPhase.A)
                                         ackWaitingFromPhase_A();
@@ -191,30 +216,64 @@ public class Controller {
                                     break;
                             }
                         }
+
                     case ACK_WAITING:
-                        for(int i=0; i<16;i++)
+
+                        buttons[0].setEnabled(false);
+                        buttons[1].setEnabled(false);
+                        buttons[2].setEnabled(false);
+                        buttons[3].setEnabled(false);
+                        buttons[4].setEnabled(false);
+                        buttons[5].setEnabled(false);
+                        buttons[6].setEnabled(false);
+                        buttons[7].setEnabled(false);
+                        buttons[8].setEnabled(false);
+                        buttons[9].setEnabled(false);
+                        buttons[10].setEnabled(false);
+                        buttons[11].setEnabled(false);
+
+                        for (int i=0;i<16;i++)
                             evShabatMode[i].sendEvent();
-                        System.out.println("E mode.");
 
-                       // for(int i=0; i<16; i++)
-                          // evAckRedLight[i].waitEvent();
 
-                        stateMode =StateMode.SHABAT;
+                        for(int i=0; i<16; i++)
+                            evAckRedLight[i].waitEvent();
+
+
+                        stateMode = StateMode.SHABAT;
                         break;
 
                     case SHABAT:
-                        System.out.println("Entry to Shabat mode.");
+
+
                         evShabatButtonReleased.waitEvent();
 
-                        for(int i=0;i<16;i++)
+
+                        for (int i=0;i<16;i++)
                             evRestOfWeekMode[i].sendEvent();
+
+                        for (int i=0;i<16;i++)
+                            evAckRedLight[i].waitEvent();
+                        sleep(2000);
 
                         restOfWeekMode = true;
                         stateMode = StateMode.REST_OF_WEEK;
+
                         phase = Phase.PHASE_A;
 
-                        for(int i = 0; i < 16; i++)
-                            stillAlive[i] = false;
+                        buttons[0].setEnabled(true);
+                        buttons[1].setEnabled(true);
+                        buttons[2].setEnabled(true);
+                        buttons[3].setEnabled(true);
+                        buttons[4].setEnabled(true);
+                        buttons[5].setEnabled(true);
+                        buttons[6].setEnabled(true);
+                        buttons[7].setEnabled(true);
+                        buttons[8].setEnabled(true);
+                        buttons[9].setEnabled(true);
+                        buttons[10].setEnabled(true);
+                        buttons[11].setEnabled(true);
+
                         break;
 
 
@@ -227,10 +286,13 @@ public class Controller {
         evAckRedLight[0].waitEvent();
         evAckRedLight[6].waitEvent();
         evAckRedLight[7].waitEvent();
+        evAckRedLight[8].waitEvent();
         evAckRedLight[9].waitEvent();
         evAckRedLight[10].waitEvent();
+        evAckRedLight[11].waitEvent();
         evAckRedLight[12].waitEvent();
         evAckRedLight[13].waitEvent();
+        System.out.println("A group");
 
         phase =Phase.PHASE_B;
     }
@@ -245,6 +307,8 @@ public class Controller {
         evAckRedLight[10].waitEvent();
         evAckRedLight[12].waitEvent();
         evAckRedLight[13].waitEvent();
+        System.out.println("B group");
+
 
         phase = Phase.PHASE_C;
     }
@@ -257,12 +321,28 @@ public class Controller {
         evAckRedLight[11].waitEvent();
         evAckRedLight[14].waitEvent();
         evAckRedLight[15].waitEvent();
+        System.out.println("C group");
+
         phase =Phase.PHASE_A;
     }
 
     private void buttonPressed(int numOfButton) {
-        if(numOfButton == 16){
+        buttons[0].setEnabled(false);
+        buttons[1].setEnabled(false);
+        buttons[2].setEnabled(false);
+        buttons[3].setEnabled(false);
+        buttons[4].setEnabled(false);
+        buttons[5].setEnabled(false);
+        buttons[6].setEnabled(false);
+        buttons[7].setEnabled(false);
+        buttons[8].setEnabled(false);
+        buttons[9].setEnabled(false);
+        buttons[10].setEnabled(false);
+        buttons[11].setEnabled(false);
 
+        if(numOfButton == 14 || numOfButton == 15){
+         phase =Phase.PHASE_C;
         }
+
     }
 }

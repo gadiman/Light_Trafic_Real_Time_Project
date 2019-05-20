@@ -21,31 +21,31 @@ public class ShloshaAvot extends Thread
 	Event64 evRestOfWeek;
 	Event64 evLightRedAck;
 	Event64 evStartWorking;
-	Boolean isStillAlive;
 
 
 
 
-	enum StateMode {REST_OF_WEEK,SHABAT};
-	enum ColorLight {RED, GREEN, ORANGE, START}
+	enum StateMode {REST_OF_WEEK,SHABAT,BLINK_ORANGE};
+	enum ColorLight {RED, GREEN, ORANGE}
 
 	StateMode stateMode;
 	ColorLight color;
-	boolean  restOfWeekMode;
+	Boolean  restOfWeekMode,shabt;
+
 
 
 	private boolean stop=true;
 
-	public ShloshaAvot( Ramzor ramzor,JPanel panel,int key, Event64 evShabat_,
-                        Event64 evRestOfWeek_,Event64 evLightRed_,Event64 evStartWorking_, Boolean isStillAlive_)
+	public ShloshaAvot( Ramzor ramzor,JPanel panel,int key, Event64 evShabat_,Event64 evRestOfWeek_,
+                       Event64 evLightRed_,Event64 evStartWorking_)
 	{
 		this.ramzor=ramzor;
 		this.panel=panel;
 		this.restOfWeekMode = true;
+		shabt = false;
 		stateMode = StateMode.REST_OF_WEEK;
 		color = ColorLight.RED;
 
-		isStillAlive = isStillAlive_;
 
 		evTimer1 = new Event64();
 		evTimer2 = new Event64();
@@ -73,36 +73,29 @@ public class ShloshaAvot extends Thread
 							while(restOfWeekMode) {
 
 								switch (color) {
-									case RED:
+
+                                    case RED:
                                         stop = true;
 
-                                        //send Ack to controller I'm Red
-                                        evLightRedAck.sendEvent();
-
-										if(evShabat.arrivedEvent()) {
-											evShabat.waitEvent();
-											System.out.println("jjjjjjj");
-											stateMode = StateMode.SHABAT;
-											restOfWeekMode = false;
-										}
-
-										if(isStillAlive){
-											color = ColorLight.GREEN;
-											break;
-										}
-
-                                        evStartWorking.waitEvent();
-
-										setLight(1,Color.GRAY);
-										setLight(2,Color.ORANGE);
-										setLight(3,Color.GRAY);
+                                        if(evShabat.arrivedEvent()) {
+                                            evShabat.waitEvent();
+                                            stateMode = StateMode.SHABAT;
+                                            restOfWeekMode = false;
+                                            break;
+                                        }else if(evStartWorking.arrivedEvent()){
+                                            evStartWorking.waitEvent();
+                                            setLight(1,Color.GRAY);
+                                            setLight(2,Color.ORANGE);
+                                            setLight(3,Color.GRAY);
 
 
-										color = ColorLight.ORANGE;
+                                            color = ColorLight.ORANGE;
 
+                                        }else
+                                            yield();
 
+                                        break;
 
-										break;
 
 									case ORANGE:
 										new MyTimer72(1000, evTimer3);
@@ -115,10 +108,9 @@ public class ShloshaAvot extends Thread
 
 										if(evShabat.arrivedEvent()) {
 											evShabat.waitEvent();
-											System.out.println("jjjjjjj");
-
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
+											break;
 										}
 
 										break;
@@ -132,14 +124,16 @@ public class ShloshaAvot extends Thread
 										setLight(2,Color.GRAY);
 										setLight(3,Color.GRAY);
 
+                                        //send Ack to controller I'm Red
+                                        evLightRedAck.sendEvent();
+
 										color = ColorLight.RED;
 
 										if(evShabat.arrivedEvent()) {
 											evShabat.waitEvent();
-											System.out.println("jjjjjjj");
-
 											stateMode = StateMode.SHABAT;
 											restOfWeekMode = false;
+											break;
 										}
 
 										break;
@@ -150,23 +144,43 @@ public class ShloshaAvot extends Thread
 
 						case SHABAT:
 							sleep(1000);
-							setLight(1,Color.GRAY);
+							setLight(1,Color.RED);
 							setLight(2,Color.GRAY);
-							setLight(3,Color.RED);
+							setLight(3,Color.GRAY);
+							sleep(2000);
 
 							evLightRedAck.sendEvent();
+							stateMode = StateMode.BLINK_ORANGE;
 
-							System.out.println("llllllll");
+							break;
 
+                        case BLINK_ORANGE:
+                            if(evRestOfWeek.arrivedEvent())
+                            {
+                                evRestOfWeek.waitEvent();
+                                stateMode = StateMode.REST_OF_WEEK;
+                                restOfWeekMode = true;
+                                color = ColorLight.RED;
 
-							evRestOfWeek.waitEvent();
+                                setLight(1,Color.RED);
+                                setLight(2,Color.GRAY);
+                                setLight(3,Color.GRAY);
 
+                                evLightRedAck.sendEvent();
 
-							stateMode = StateMode.REST_OF_WEEK;
-							restOfWeekMode = true;
-							color = ColorLight.RED;
+                            }
+                            else{
+                                sleep(500);
+                                setLight(1, Color.GRAY);
+                                setLight(2, Color.ORANGE);
+                                setLight(3, Color.GRAY);
+                                sleep(500);
 
-							 break;
+                                setLight(1, Color.GRAY);
+                                setLight(2, Color.GRAY);
+                                setLight(3, Color.GRAY);
+                            }
+                            break;
 
 
 					}

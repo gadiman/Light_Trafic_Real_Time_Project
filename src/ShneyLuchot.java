@@ -3,7 +3,6 @@ import java.awt.*;
 
 /**
  * It represent a walkers' traffic light.
- *
  * @author Arie and Gad.
  */
 class ShneyLuchot extends Thread {
@@ -24,11 +23,13 @@ class ShneyLuchot extends Thread {
                        Event64 evRestOfWeek, Event64 evLightRedAck, Event64 evStartWorking) {
         this.ramzor = ramzor;
         this.panel = panel;
+        this.restOfWeekMode = true;
         this.stateMode = StateMode.REST_OF_WEEK;
         this.color = ColorLight.RED;
-        this.restOfWeekMode = true;
+
         this.evTimer1 = new Event64();
         this.evTimer2 = new Event64();
+
         this.evShabat = evShabat;
         this.evRestOfWeek = evRestOfWeek;
         this.evLightRedAck = evLightRedAck;

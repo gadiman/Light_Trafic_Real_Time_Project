@@ -12,9 +12,6 @@ public class ShloshaAvot extends Thread {
     private Event64 evTimer1, evTimer2, evTimer3, evShabat, evRestOfWeek, evLightRedAck, evStartWorking;
 
     enum StateMode {REST_OF_WEEK, SHABAT, BLINK_ORANGE}
-
-    ;
-
     enum ColorLight {RED, GREEN, ORANGE}
 
     private StateMode stateMode;
@@ -62,7 +59,7 @@ public class ShloshaAvot extends Thread {
                                         break;
                                     } else if (evStartWorking.arrivedEvent()) {
                                         evStartWorking.waitEvent();
-                                        setLight(1, Color.GRAY);
+                                        setLight(1, Color.RED);
                                         setLight(2, Color.ORANGE);
                                         setLight(3, Color.GRAY);
 
@@ -74,6 +71,7 @@ public class ShloshaAvot extends Thread {
                                     new MyTimer72(1000, evTimer3);
                                     evTimer3.waitEvent();
                                     sleep(1000);
+
                                     setLight(1, Color.GRAY);
                                     setLight(2, Color.GRAY);
                                     setLight(3, Color.GREEN);
@@ -90,11 +88,17 @@ public class ShloshaAvot extends Thread {
                                     new MyTimer72(5000, evTimer2);
                                     evTimer2.waitEvent();
                                     sleep(1000);
+
+                                    setLight(1, Color.GRAY);
+                                    setLight(2, Color.ORANGE);
+                                    setLight(3, Color.GRAY);
+                                    sleep(1000);
+
                                     setLight(1, Color.RED);
                                     setLight(2, Color.GRAY);
                                     setLight(3, Color.GRAY);
 
-                                    //send Ack to controller I'm Red
+                                    // Send Ack to controller that I'm Red:
                                     evLightRedAck.sendEvent();
 
                                     color = ColorLight.RED;
@@ -107,7 +111,6 @@ public class ShloshaAvot extends Thread {
                                     break;
                             }
                         }
-
                     case SHABAT:
                         sleep(1000);
                         setLight(1, Color.RED);
@@ -117,7 +120,6 @@ public class ShloshaAvot extends Thread {
 
                         evLightRedAck.sendEvent();
                         stateMode = StateMode.BLINK_ORANGE;
-
                         break;
                     case BLINK_ORANGE:
                         if (evRestOfWeek.arrivedEvent()) {

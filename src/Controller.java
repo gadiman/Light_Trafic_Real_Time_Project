@@ -268,6 +268,9 @@ public class Controller {
                         for(int i=0; i<16; i++)
                             evAckRedLight[i].waitEvent();
 
+                        buttons[12].setEnabled(true);
+
+
                         //move to Shabat state
                         stateMode = StateMode.SHABAT;
                         break;

@@ -34,7 +34,8 @@ public class MyActionListener implements ActionListener
 
 		if (key == 16) {
 			if (butt.isSelected()) {
-				evShabatButtonPressed.sendEvent();
+				buttons[12].setEnabled(false);
+				evShabatButtonPressed.sendEvent(butt);
 
 				buttons[0].setEnabled(false);
 				buttons[1].setEnabled(false);

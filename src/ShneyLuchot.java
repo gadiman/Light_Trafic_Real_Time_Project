@@ -65,7 +65,7 @@ class ShneyLuchot extends Thread {
                                         restOfWeekMode = false;
                                     }
 
-                                    new MyTimer72(8000, evTimer2);
+                                    new Timer(8000, evTimer2);
                                     evTimer2.waitEvent();
                                     sleep(1000);
                                     setLight(1, Color.RED);

@@ -29,9 +29,9 @@ public class ShloshaAvot extends Thread {
         this.stateMode = StateMode.REST_OF_WEEK;
         this.color = ColorLight.RED;
 
-        evTimer1 = new Event64();
-        evTimer2 = new Event64();
-        evTimer3 = new Event64();
+        this.evTimer1 = new Event64();
+        this.evTimer2 = new Event64();
+        this.evTimer3 = new Event64();
 
         this.evShabat = evShabat;
         this.evRestOfWeek = evRestOfWeek;
@@ -68,7 +68,7 @@ public class ShloshaAvot extends Thread {
                                         yield();
                                     break;
                                 case ORANGE:
-                                    new MyTimer72(1000, evTimer3);
+                                    new Timer(1000, evTimer3);
                                     evTimer3.waitEvent();
                                     sleep(1000);
 
@@ -85,9 +85,10 @@ public class ShloshaAvot extends Thread {
                                     break;
                                 case GREEN:
                                     stop = false;
-                                    new MyTimer72(5000, evTimer2);
+                                    new Timer(5000, evTimer2);
                                     evTimer2.waitEvent();
                                     sleep(1000);
+                                    stop = true;
 
                                     setLight(1, Color.GRAY);
                                     setLight(2, Color.ORANGE);

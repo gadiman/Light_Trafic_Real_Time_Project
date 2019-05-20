@@ -3,20 +3,16 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-/*
- * Created on Mimuna 5767  upDate on Tevet 5770 
- */
-
 /**
- * @author לויאן
+ * It represent a traffic light.
+ * @author Arie and Gad.
  */
-
 class Ramzor 
 {
-	int numOfLights;
-	int xP[],yP[];
+	private int numOfLights;
+	private int xP[],yP[];
 	int diameter;
-	Color colorLight[];
+	private Color colorLight[];
 
 	Ramzor(int num,int dia,int x0,int y0)
 	{

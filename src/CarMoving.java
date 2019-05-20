@@ -6,8 +6,7 @@ import javax.swing.JPanel;
  * It represent a car moving.
  * @author Arie and Gad.
  */
-
-public class CarMooving extends Thread
+public class CarMoving extends Thread
 {
     private JLabel myLabel;
     private JPanel myPanel;
@@ -17,12 +16,12 @@ public class CarMooving extends Thread
     private int y, dy;
     private ImageIcon imageIcon;
 
-	public CarMooving(JPanel myPanel, ShloshaAvot myRamzor,int key) 
+	public CarMoving(JPanel myPanel, ShloshaAvot myRamzor, int key)
 	{
 		this.myPanel = myPanel;
 		this.myRamzor = myRamzor;
 		this.key = key;
-		setCarLocationAndMooving();
+		setCarLocationAndMoving();
 		imageIcon = getImageIcon();
 		myLabel = new JLabel(imageIcon);
 		myLabel.setOpaque(false);
@@ -31,7 +30,7 @@ public class CarMooving extends Thread
 		start();
 	}
 
-	private void setCarLocationAndMooving() 
+	private void setCarLocationAndMoving()
 	{
 		switch (key) 
 		{
@@ -95,7 +94,7 @@ public class CarMooving extends Thread
 			else
 			{
 				key = 5;
-				setCarLocationAndMooving();
+				setCarLocationAndMoving();
 				imageIcon=getImageIcon();
 				myLabel.removeAll();
 				myLabel.setIcon(imageIcon);

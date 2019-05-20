@@ -1,23 +1,20 @@
 import javax.swing.JPanel;
 
-/*
- * Created on Tevet 5770 
- */
-
 /**
- * @author לויאן
+ * It represent a cars maker.
+ * @author Arie and Gad.
  */
-
 public class CarsMaker extends Thread
 {
-	JPanel myPanel;
+	private JPanel myPanel;
 	private ShloshaAvot myRamzor;
-	int key;
-	public CarsMaker(JPanel myPanel,ShloshaAvot myRamzor, int key) 
+	private int key;
+	
+	public CarsMaker(JPanel myPanel, ShloshaAvot myRamzor, int key)
 	{
-		this.myPanel=myPanel;
-		this.myRamzor=myRamzor;
-		this.key=key;
+		this.myPanel = myPanel;
+		this.myRamzor = myRamzor;
+		this.key = key;
 		setDaemon(true);
 		start();
 	}
@@ -25,18 +22,16 @@ public class CarsMaker extends Thread
 	public void run()
 	{
 		try {
-			while (true)
-			{
+			while (true) {
 				sleep(300);
-				if ( !myRamzor.isStop())
-				{
-					new CarMooving(myPanel,myRamzor,key);
-				}
 
+				if (!myRamzor.isStop())
+				{
+					new CarMoving(myPanel ,myRamzor ,key);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

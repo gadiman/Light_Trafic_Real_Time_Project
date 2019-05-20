@@ -9,7 +9,7 @@ public class CarsMaker extends Thread
 	private JPanel myPanel;
 	private ShloshaAvot myRamzor;
 	private int key;
-	
+
 	public CarsMaker(JPanel myPanel, ShloshaAvot myRamzor, int key)
 	{
 		this.myPanel = myPanel;

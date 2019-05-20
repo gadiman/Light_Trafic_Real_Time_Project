@@ -55,7 +55,7 @@ public class MyActionListener implements ActionListener
 		}
 		else {
 			evButtonPressed.sendEvent(butt);
-			
+
 			buttons[0].setEnabled(false);
 			buttons[1].setEnabled(false);
 			buttons[2].setEnabled(false);

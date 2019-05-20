@@ -91,7 +91,7 @@ class Event64
 			isWaitingForMe = true;
 			try {
 				wait();
-			} catch(InterruptedException exce) {};
+			} catch (InterruptedException exce) {};
 		}
 
 		return true;

@@ -3,21 +3,30 @@ import javax.swing.*;
 import static java.lang.Thread.sleep;
 
 public class Controller {
+
+    //--------------Build Traffic staff-----------//
     Ramzor ramzorim[];
-    JRadioButton buttons[];
+    JRadioButton [] buttons;
     TrafficLightFrame tlf;
     MyActionListener myActionListener;
-    int numOfButton;
+    //-------------------------------------------//
 
-    Event64 evButtonPressed, evShabatButtonPressed, evShabatButtonReleased;
-    Event64[] evAckRedLight, evStartWorking, evShabatMode, evRestOfWeekMode;
+    Event64 evButtonPressed, evShabatButtonPressed, evShabatButtonReleased; //those for buttons
+    Event64[] evAckRedLight, evStartWorking, evShabatMode, evRestOfWeekMode; //those for Light Traffics
+
     enum StateMode {REST_OF_WEEK, SHABAT, ACK_WAITING};
-    StateMode stateMode;
-    boolean restOfWeekMode;
+    StateMode stateMode; //for Outer switch
+
     enum Phase {START, PHASE_A, PHASE_B, PHASE_C, ACK_WAITING}
-    Phase phase;
+    Phase phase; //for Inner switch
+
     enum NumOfPhase{A, B, C}
-    NumOfPhase numOfPhase;
+    NumOfPhase numOfPhase; //for function that waiting for red light Ack
+
+    boolean restOfWeekMode; //for While Loop - Inner switch
+    JRadioButton button; //for Clear button selected
+
+
 
     public Controller(Ramzor[] ramzorArray, JRadioButton[] buttonArray,
                       TrafficLightFrame tlf_, MyActionListener myActionListener_){
@@ -39,7 +48,7 @@ public class Controller {
         evAckRedLight = new Event64[16];
         evStartWorking = new Event64[16];
 
-        myActionListener_.init(evButtonPressed, evShabatButtonPressed, evShabatButtonReleased);
+        myActionListener_.init(evButtonPressed, evShabatButtonPressed, evShabatButtonReleased,buttons);
 
         for(int i = 0; i < 16; i++){
             evAckRedLight[i] = new Event64();
@@ -85,17 +94,22 @@ public class Controller {
                                 case PHASE_A:
                                     if (evShabatButtonPressed.arrivedEvent()) {
                                         evShabatButtonPressed.waitEvent();
+                                        //For a case that evShabat came but we have a selected button either
+                                        if (evButtonPressed.arrivedEvent()) {
+                                            button = (JRadioButton) evButtonPressed.waitEvent();
+                                            button.setSelected(false);
+                                        }
                                         restOfWeekMode = false;
                                         stateMode = StateMode.ACK_WAITING;
                                         break;
                                     }
                                     else if (evButtonPressed.arrivedEvent()){
-                                        numOfButton = (int)evButtonPressed.waitEvent();
-                                        buttonPressed(numOfButton);
+                                        button = (JRadioButton)evButtonPressed.waitEvent();
+                                        buttonPressed(button);
                                         break;
                                     }
 
-
+                                    //sending events for group A - Start working
                                     evStartWorking[0].sendEvent(false);
                                     evStartWorking[6].sendEvent(false);
                                     evStartWorking[7].sendEvent(false);
@@ -106,9 +120,9 @@ public class Controller {
                                     evStartWorking[12].sendEvent(false);
                                     evStartWorking[13].sendEvent(false);
 
-
-                                    buttons[0].setEnabled(false);
-                                    buttons[1].setEnabled(false);
+                                    //enable jest the relevant buttons
+                                    buttons[0].setEnabled(true);
+                                    buttons[1].setEnabled(true);
                                     buttons[2].setEnabled(false);
                                     buttons[3].setEnabled(false);
                                     buttons[4].setEnabled(false);
@@ -120,8 +134,7 @@ public class Controller {
                                     buttons[10].setEnabled(true);
                                     buttons[11].setEnabled(true);
 
-
-
+                                    //moving to Ack_Waiting state
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.A;
                                     break;
@@ -129,16 +142,22 @@ public class Controller {
                                 case PHASE_B:
                                     if (evShabatButtonPressed.arrivedEvent()) {
                                         evShabatButtonPressed.waitEvent();
+                                        //For a case that evShabat came but we have a selected button either
+                                        if (evButtonPressed.arrivedEvent()) {
+                                            button = (JRadioButton) evButtonPressed.waitEvent();
+                                            button.setSelected(false);
+                                        }
                                         restOfWeekMode = false;
                                         stateMode = StateMode.ACK_WAITING;
                                         break;
                                     }
                                     else if(evButtonPressed.arrivedEvent()) {
-                                        numOfButton = (int)evButtonPressed.waitEvent();
-                                        buttonPressed(numOfButton);
+                                        button = (JRadioButton)evButtonPressed.waitEvent();
+                                        buttonPressed(button);
                                         break;
                                     }
 
+                                    //sending events for group B - Start working
                                     evStartWorking[1].sendEvent(false);
                                     evStartWorking[4].sendEvent(false);
                                     evStartWorking[5].sendEvent(false);
@@ -149,20 +168,21 @@ public class Controller {
                                     evStartWorking[12].sendEvent(false);
                                     evStartWorking[13].sendEvent(false);
 
+                                    //enable jest the relevant buttons
                                     buttons[0].setEnabled(false);
                                     buttons[1].setEnabled(false);
                                     buttons[2].setEnabled(false);
                                     buttons[3].setEnabled(false);
-                                    buttons[4].setEnabled(false);
+                                    buttons[4].setEnabled(true);
                                     buttons[5].setEnabled(false);
                                     buttons[6].setEnabled(false);
-                                    buttons[7].setEnabled(false);
+                                    buttons[7].setEnabled(true);
                                     buttons[8].setEnabled(false);
                                     buttons[9].setEnabled(false);
-                                    buttons[10].setEnabled(false);
-                                    buttons[11].setEnabled(false);
+                                    buttons[10].setEnabled(true);
+                                    buttons[11].setEnabled(true);
 
-
+                                    //Moving to Ack_Waiting state
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.B;
                                     break;
@@ -170,16 +190,22 @@ public class Controller {
                                 case PHASE_C:
                                     if (evShabatButtonPressed.arrivedEvent()) {
                                         evShabatButtonPressed.waitEvent();
+                                        //For a case that evShabat came but we have a selected button either
+                                        if (evButtonPressed.arrivedEvent()) {
+                                            button = (JRadioButton) evButtonPressed.waitEvent();
+                                            button.setSelected(false);
+                                        }
                                         restOfWeekMode = false;
                                         stateMode = StateMode.ACK_WAITING;
                                         break;
                                     }
                                     else if (evButtonPressed.arrivedEvent()) {
-                                        numOfButton = (int)evButtonPressed.waitEvent();
-                                        buttonPressed(numOfButton);
+                                        button = (JRadioButton)evButtonPressed.waitEvent();
+                                        buttonPressed(button);
                                         break;
                                     }
 
+                                    //sending events for group C - Start working
                                     evStartWorking[2].sendEvent(false);
                                     evStartWorking[3].sendEvent(false);
                                     evStartWorking[4].sendEvent(false);
@@ -189,36 +215,38 @@ public class Controller {
                                     evStartWorking[14].sendEvent(false);
                                     evStartWorking[15].sendEvent(false);
 
+                                    //enable jest the relevant buttons
                                     buttons[0].setEnabled(false);
                                     buttons[1].setEnabled(false);
-                                    buttons[2].setEnabled(false);
-                                    buttons[3].setEnabled(false);
+                                    buttons[2].setEnabled(true);
+                                    buttons[3].setEnabled(true);
                                     buttons[4].setEnabled(false);
-                                    buttons[5].setEnabled(false);
-                                    buttons[6].setEnabled(false);
+                                    buttons[5].setEnabled(true);
+                                    buttons[6].setEnabled(true);
                                     buttons[7].setEnabled(false);
-                                    buttons[8].setEnabled(false);
-                                    buttons[9].setEnabled(false);
+                                    buttons[8].setEnabled(true);
+                                    buttons[9].setEnabled(true);
                                     buttons[10].setEnabled(false);
                                     buttons[11].setEnabled(false);
 
+                                    //Moving to Ack_Waiting state
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.C;
                                     break;
 
                                 case ACK_WAITING:
                                     if (numOfPhase == NumOfPhase.A)
-                                        ackWaitingFromPhase_A();
+                                        ackWaitingFromPhase_A(); //waiting for red light Ack
                                     else if (numOfPhase == NumOfPhase.B)
-                                        ackWaitingFromPhase_B();
+                                        ackWaitingFromPhase_B();//waiting for red light Ack
                                     else if (numOfPhase == NumOfPhase.C)
-                                        ackWaitingFromPhase_C();
+                                        ackWaitingFromPhase_C();//waiting for red light Ack
                                     break;
                             }
                         }
 
                     case ACK_WAITING:
-
+                        //unable all the buttons
                         buttons[0].setEnabled(false);
                         buttons[1].setEnabled(false);
                         buttons[2].setEnabled(false);
@@ -232,47 +260,35 @@ public class Controller {
                         buttons[10].setEnabled(false);
                         buttons[11].setEnabled(false);
 
+                        //sending event to all - get in to Shabat state
                         for (int i=0;i<16;i++)
                             evShabatMode[i].sendEvent();
 
-
+                        //wait until the all the light traffic will send Ack for red light
                         for(int i=0; i<16; i++)
                             evAckRedLight[i].waitEvent();
 
-
+                        //move to Shabat state
                         stateMode = StateMode.SHABAT;
                         break;
 
                     case SHABAT:
-
-
+                        //wait until the Shabat mode button will pushed again
                         evShabatButtonReleased.waitEvent();
 
-
+                        //send event for all the light traffic- get out of shabat state
                         for (int i=0;i<16;i++)
                             evRestOfWeekMode[i].sendEvent();
 
+                        //wait until the all the light traffic will send Ack for red light
                         for (int i=0;i<16;i++)
                             evAckRedLight[i].waitEvent();
                         sleep(2000);
 
+                        //back to inner switch
                         restOfWeekMode = true;
                         stateMode = StateMode.REST_OF_WEEK;
-
                         phase = Phase.PHASE_A;
-
-                        buttons[0].setEnabled(true);
-                        buttons[1].setEnabled(true);
-                        buttons[2].setEnabled(true);
-                        buttons[3].setEnabled(true);
-                        buttons[4].setEnabled(true);
-                        buttons[5].setEnabled(true);
-                        buttons[6].setEnabled(true);
-                        buttons[7].setEnabled(true);
-                        buttons[8].setEnabled(true);
-                        buttons[9].setEnabled(true);
-                        buttons[10].setEnabled(true);
-                        buttons[11].setEnabled(true);
 
                         break;
 
@@ -282,6 +298,7 @@ public class Controller {
         } catch (InterruptedException e) {}
     }
 
+    //This function waiting til all of the A's light traffic send Ack for Red light
     private void ackWaitingFromPhase_A() {
         evAckRedLight[0].waitEvent();
         evAckRedLight[6].waitEvent();
@@ -296,7 +313,7 @@ public class Controller {
 
         phase =Phase.PHASE_B;
     }
-
+    //This function waiting til all of the B's light traffic send Ack for Red light
     private void ackWaitingFromPhase_B() {
         evAckRedLight[1].waitEvent();
         evAckRedLight[4].waitEvent();
@@ -312,6 +329,8 @@ public class Controller {
 
         phase = Phase.PHASE_C;
     }
+
+    //This function waiting til all of the C's light traffic send Ack for Red light
     private void ackWaitingFromPhase_C() {
         evAckRedLight[2].waitEvent();
         evAckRedLight[3].waitEvent();
@@ -326,22 +345,17 @@ public class Controller {
         phase =Phase.PHASE_A;
     }
 
-    private void buttonPressed(int numOfButton) {
-        buttons[0].setEnabled(false);
-        buttons[1].setEnabled(false);
-        buttons[2].setEnabled(false);
-        buttons[3].setEnabled(false);
-        buttons[4].setEnabled(false);
-        buttons[5].setEnabled(false);
-        buttons[6].setEnabled(false);
-        buttons[7].setEnabled(false);
-        buttons[8].setEnabled(false);
-        buttons[9].setEnabled(false);
-        buttons[10].setEnabled(false);
-        buttons[11].setEnabled(false);
+    //This function switch between Phases if one of the button has selected
+    private  void buttonPressed(JRadioButton butt) {
+        int numOfButton= Integer.parseInt(butt.getName());
 
-        if(numOfButton == 14 || numOfButton == 15){
-         phase =Phase.PHASE_C;
+        if(numOfButton == 4 || numOfButton == 5){
+            butt.setSelected(false); //Jest fall
+        }else if(numOfButton == 14 || numOfButton == 15){
+            phase = Phase.PHASE_C;
+            butt.setSelected(false);
+        }else if(numOfButton == 6 || numOfButton == 7 || numOfButton == 9 || numOfButton == 10 || numOfButton == 12 || numOfButton ==13){
+            butt.setSelected(false); //Jest fall
         }
 
     }

@@ -113,10 +113,8 @@ public class Controller {
                                     evStartWorking[0].sendEvent(false);
                                     evStartWorking[6].sendEvent(false);
                                     evStartWorking[7].sendEvent(false);
-                                    evStartWorking[8].sendEvent(false);
                                     evStartWorking[9].sendEvent(false);
                                     evStartWorking[10].sendEvent(false);
-                                    evStartWorking[11].sendEvent(false);
                                     evStartWorking[12].sendEvent(false);
                                     evStartWorking[13].sendEvent(false);
 
@@ -125,10 +123,10 @@ public class Controller {
                                     buttons[1].setEnabled(true);
                                     buttons[2].setEnabled(false);
                                     buttons[3].setEnabled(false);
-                                    buttons[4].setEnabled(false);
+                                    buttons[4].setEnabled(true);
                                     buttons[5].setEnabled(false);
                                     buttons[6].setEnabled(false);
-                                    buttons[7].setEnabled(false);
+                                    buttons[7].setEnabled(true);
                                     buttons[8].setEnabled(false);
                                     buttons[9].setEnabled(false);
                                     buttons[10].setEnabled(true);
@@ -306,10 +304,8 @@ public class Controller {
         evAckRedLight[0].waitEvent();
         evAckRedLight[6].waitEvent();
         evAckRedLight[7].waitEvent();
-        evAckRedLight[8].waitEvent();
         evAckRedLight[9].waitEvent();
         evAckRedLight[10].waitEvent();
-        evAckRedLight[11].waitEvent();
         evAckRedLight[12].waitEvent();
         evAckRedLight[13].waitEvent();
         System.out.println("A group");
@@ -354,7 +350,7 @@ public class Controller {
 
         if(numOfButton == 4 || numOfButton == 5){
             butt.setSelected(false); //Jest fall
-        }else if(numOfButton == 14 || numOfButton == 15){
+        }else if(numOfButton == 14 || numOfButton == 15 || numOfButton == 8 || numOfButton == 11){
             phase = Phase.PHASE_C;
             butt.setSelected(false);
         }else if(numOfButton == 6 || numOfButton == 7 || numOfButton == 9 || numOfButton == 10 || numOfButton == 12 || numOfButton ==13){

@@ -9,8 +9,8 @@ import javax.swing.JPanel;
  */
 class Ramzor 
 {
-	private int numOfLights;
-	private int xP[],yP[];
+	int numOfLights;
+	int xP[],yP[];
 	int diameter;
 	Color colorLight[];
 

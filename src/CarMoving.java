@@ -34,8 +34,7 @@ public class CarMoving extends Thread {
             case 1:
                 x = 850;
                 dx = -100;
-                // y = 70;
-                y = 120;
+                y = 70;
                 dy = 0;
                 break;
             case 2:
@@ -61,8 +60,20 @@ public class CarMoving extends Thread {
                 dy = 0;
                 break;
             case 6:
+                x = 850;
+                dx = -100;
+                y = 150;
+                dy = 0;
+                break;
+            case 7:
                 dx = 0;
                 dy = 50;
+                break;
+            case 8:
+                x = -30;
+                dx = 50;
+                y = 315;
+                dy = 0;
                 break;
             default:
                 x = 900;
@@ -94,29 +105,19 @@ public class CarMoving extends Thread {
     private boolean finish() {
         switch (key) {
             case 1:
-                // return x < -20;
-                if (x < 360) {
-                    key = 6;
-                    setCarLocationAndMoving();
-                    imageIcon = getImageIcon();
-                    myLabel.removeAll();
-                    myLabel.setIcon(imageIcon);
-                    myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
-                    return false;
-                }
                 return x < -20;
             case 2:
                 if (y > 180)
-                    return false;
-                else {
-                    key = 5;
-                    setCarLocationAndMoving();
-                    imageIcon = getImageIcon();
-                    myLabel.removeAll();
-                    myLabel.setIcon(imageIcon);
-                    myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
-                    return false;
-                }
+                return false;
+            else {
+                key = 5;
+                setCarLocationAndMoving();
+                imageIcon = getImageIcon();
+                myLabel.removeAll();
+                myLabel.setIcon(imageIcon);
+                myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+                return false;
+            }
             case 3:
                 if (y > 600) {
                     dx = 0;
@@ -128,7 +129,21 @@ public class CarMoving extends Thread {
             case 5:
                 return x < -20;
             case 6:
+                if (x > 350)
+                    return false;
+                else {
+                    key = 7;
+                    setCarLocationAndMoving();
+                    imageIcon = getImageIcon();
+                    myLabel.removeAll();
+                    myLabel.setIcon(imageIcon);
+                    myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+                    return false;
+                }
+            case 7:
                 return y > 800;
+            case 8:
+                return x > 800;
         }
         return false;
     }
@@ -142,6 +157,10 @@ public class CarMoving extends Thread {
             case 3:
                 return x < 100;
             case 4:
+                return x <= 150;
+            case 6:
+                return x > 550;
+            case 8:
                 return x <= 150;
         }
         return false;
@@ -160,7 +179,11 @@ public class CarMoving extends Thread {
             case 5:
                 return new ImageIcon("Images/upLeft.gif");
             case 6:
+                return new ImageIcon("Images/left.gif");
+            case 7:
                 return new ImageIcon("Images/leftDown.gif");
+            case 8:
+                return new ImageIcon("Images/right.gif");
             default:
                 break;
         }

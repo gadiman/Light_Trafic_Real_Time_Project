@@ -23,8 +23,17 @@ public class CarsMaker extends Thread
 			while (true) {
 				sleep(300);
 
-				if (!myRamzor.isStop())
+				if (!myRamzor.isStop()) {
+					switch (key) {
+						case 1:
+							new CarMoving(myPanel ,myRamzor ,6);
+							break;
+						case 4:
+							new CarMoving(myPanel ,myRamzor ,8);
+							break;
+					}
 					new CarMoving(myPanel ,myRamzor ,key);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

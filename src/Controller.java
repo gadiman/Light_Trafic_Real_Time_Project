@@ -102,19 +102,17 @@ public class Controller {
                                     buttons[3].setEnabled(false);
                                     buttons[4].setEnabled(true);
                                     buttons[5].setEnabled(false);
+                                    buttons[6].setEnabled(false);
+                                    buttons[7].setEnabled(true);
                                     buttons[8].setEnabled(false);
                                     buttons[9].setEnabled(false);
                                     buttons[10].setEnabled(true);
                                     buttons[11].setEnabled(true);
-                                    sleep(1500);
-                                    buttons[6].setEnabled(false);
-                                    buttons[7].setEnabled(true);
 
                                     // Moving to Ack_Waiting state:
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.A;
                                     break;
-
                                 case PHASE_B:
                                     if (CheckButtons())
                                         break;
@@ -136,8 +134,8 @@ public class Controller {
                                     buttons[2].setEnabled(false); // 6
                                     buttons[3].setEnabled(false); // 7
                                     buttons[4].setEnabled(true); // 8
-                                    buttons[5].setEnabled(true); // 9
-                                    buttons[6].setEnabled(true); // 10
+                                    buttons[5].setEnabled(false); // 9
+                                    buttons[6].setEnabled(false); // 10
                                     buttons[7].setEnabled(true); // 11
                                     buttons[8].setEnabled(false); // 12
                                     buttons[9].setEnabled(false); // 13
@@ -323,16 +321,12 @@ public class Controller {
     private void buttonPressed(JRadioButton butt) {
         int numOfButton = Integer.parseInt(butt.getName());
 
-        if (numOfButton == 4 || numOfButton == 5) {
+        if (numOfButton == 4 || numOfButton == 5 || numOfButton == 6 || numOfButton == 7 || numOfButton == 9 ||
+                numOfButton == 10 || numOfButton == 12 || numOfButton == 13) {
             butt.setSelected(false); // Just fall.
-        } else if (numOfButton == 9 || numOfButton == 10) {
-            phase = Phase.PHASE_A;
-            butt.setSelected(false);
-        } else if (numOfButton == 14 || numOfButton == 15 || numOfButton == 8 || numOfButton == 11) {
+        } else if (numOfButton == 8 || numOfButton == 11 || numOfButton == 14 || numOfButton == 15) {
             phase = Phase.PHASE_C;
             butt.setSelected(false);
-        } else if (numOfButton == 6 || numOfButton == 7 || numOfButton == 12 || numOfButton == 13) {
-            butt.setSelected(false); // Just fall.
         }
     }
 }

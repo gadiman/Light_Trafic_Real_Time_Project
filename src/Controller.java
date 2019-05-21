@@ -86,6 +86,8 @@ public class Controller {
                                     if (CheckButtons())
                                         break;
 
+
+
                                     // Sending events for group A - Start working:
                                     evStartWorking[0].sendEvent(false);
                                     evStartWorking[6].sendEvent(false);
@@ -102,12 +104,13 @@ public class Controller {
                                     buttons[3].setEnabled(false);
                                     buttons[4].setEnabled(true);
                                     buttons[5].setEnabled(false);
-                                    buttons[6].setEnabled(false);
-                                    buttons[7].setEnabled(true);
                                     buttons[8].setEnabled(false);
                                     buttons[9].setEnabled(false);
                                     buttons[10].setEnabled(true);
                                     buttons[11].setEnabled(true);
+                                    sleep(1500);
+                                    buttons[6].setEnabled(false);
+                                    buttons[7].setEnabled(true);
 
                                     //moving to Ack_Waiting state
                                     phase = Phase.ACK_WAITING;
@@ -120,11 +123,12 @@ public class Controller {
 
                                     // Sending events for group B - Start working:
                                     evStartWorking[1].sendEvent(false);
-                                    evStartWorking[2].sendEvent(false);
                                     evStartWorking[4].sendEvent(false);
                                     evStartWorking[5].sendEvent(false);
                                     evStartWorking[6].sendEvent(false);
                                     evStartWorking[7].sendEvent(false);
+                                    evStartWorking[9].sendEvent(false);
+                                    evStartWorking[10].sendEvent(false);
                                     evStartWorking[12].sendEvent(false);
                                     evStartWorking[13].sendEvent(false);
 
@@ -157,6 +161,7 @@ public class Controller {
                                     evStartWorking[5].sendEvent(false);
                                     evStartWorking[8].sendEvent(false);
                                     evStartWorking[11].sendEvent(false);
+                                    sleep(1500);
                                     evStartWorking[14].sendEvent(false);
                                     evStartWorking[15].sendEvent(false);
 
@@ -284,11 +289,12 @@ public class Controller {
      */
     private void ackWaitingFromPhase_B() {
         evAckRedLight[1].waitEvent();
-        evAckRedLight[2].waitEvent();
         evAckRedLight[4].waitEvent();
         evAckRedLight[5].waitEvent();
         evAckRedLight[6].waitEvent();
         evAckRedLight[7].waitEvent();
+        evAckRedLight[9].waitEvent();
+        evAckRedLight[10].waitEvent();
         evAckRedLight[12].waitEvent();
         evAckRedLight[13].waitEvent();
         System.out.println("B group");

@@ -90,11 +90,6 @@ public class ShloshaAvot extends Thread {
                                     sleep(1000);
                                     stop = true;
 
-                                    setLight(1, Color.GRAY);
-                                    setLight(2, Color.ORANGE);
-                                    setLight(3, Color.GRAY);
-                                    sleep(1000);
-
                                     setLight(1, Color.RED);
                                     setLight(2, Color.GRAY);
                                     setLight(3, Color.GRAY);

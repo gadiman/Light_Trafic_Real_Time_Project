@@ -134,8 +134,8 @@ public class ShloshaAvot extends Thread {
                             setLight(1, Color.GRAY);
                             setLight(2, Color.ORANGE);
                             setLight(3, Color.GRAY);
-                            sleep(500);
 
+                            sleep(500);
                             setLight(1, Color.GRAY);
                             setLight(2, Color.GRAY);
                             setLight(3, Color.GRAY);

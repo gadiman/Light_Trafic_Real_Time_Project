@@ -22,7 +22,7 @@ class Ramzor
 		this.yP = new int[numOfLights];
 		this.colorLight = new Color[numOfLights];
 		this.colorLight[0] = Color.LIGHT_GRAY;
-		this.xP[0] = x0; yP[0] = y0;
+		this.xP[0] = x0; this.yP[0] = y0;
 	}
 
 	Ramzor(int num, int dia, int x0, int y0, int x1, int y1)
@@ -34,8 +34,8 @@ class Ramzor
 		this.colorLight = new Color[numOfLights];
 		this.colorLight[0] = Color.RED;
 		this.colorLight[1] = Color.GRAY;
-		this.xP[0] = x0; yP[0] = y0;
-		this.xP[1] = x1; yP[1] = y1;
+		this.xP[0] = x0; this.yP[0] = y0;
+		this.xP[1] = x1; this.yP[1] = y1;
 	}
 
 	Ramzor(int num, int dia, int x0, int y0, int x1, int y1, int x2, int y2)
@@ -48,15 +48,14 @@ class Ramzor
 		this.colorLight[0] = Color.RED;
 		this.colorLight[1] = Color.LIGHT_GRAY;
 		this.colorLight[2] = Color.LIGHT_GRAY;
-		this.xP[0] = x0; yP[0] = y0;
-		this.xP[1] = x1; yP[1] = y1;
-		this.xP[2] = x2; yP[2] = y2;
+		this.xP[0] = x0; this.yP[0] = y0;
+		this.xP[1] = x1; this.yP[1] = y1;
+		this.xP[2] = x2; this.yP[2] = y2;
 	}
 
 	void draw(Graphics page)
 	{
-		for(int i = 0; i < numOfLights; i++)
-		{
+		for(int i = 0; i < numOfLights; i++) {
 			page.setColor(colorLight[i]);
 			page.fillOval(xP[i], yP[i], diameter, diameter);
 		}

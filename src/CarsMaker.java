@@ -10,8 +10,7 @@ public class CarsMaker extends Thread
 	private ShloshaAvot myRamzor;
 	private int key;
 
-	public CarsMaker(JPanel myPanel, ShloshaAvot myRamzor, int key)
-	{
+	public CarsMaker(JPanel myPanel, ShloshaAvot myRamzor, int key) {
 		this.myPanel = myPanel;
 		this.myRamzor = myRamzor;
 		this.key = key;
@@ -19,16 +18,13 @@ public class CarsMaker extends Thread
 		start();
 	}
 
-	public void run()
-	{
+	public void run() {
 		try {
 			while (true) {
 				sleep(300);
 
 				if (!myRamzor.isStop())
-				{
 					new CarMoving(myPanel ,myRamzor ,key);
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

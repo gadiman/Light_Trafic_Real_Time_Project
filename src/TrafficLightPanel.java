@@ -39,7 +39,6 @@ class TrafficLightPanel extends JPanel
 		page.setColor(Color.LIGHT_GRAY);
 		page.fill3DRect(10,10,770,60,true);
 
-
 		page.setColor(Color.BLUE);
 		page.draw3DRect(10,200,260,100,true);
 		page.setColor(Color.LIGHT_GRAY);
@@ -79,8 +78,7 @@ class TrafficLightPanel extends JPanel
 		page.drawPolygon(x,y,5);
 
 		page.setColor(Color.BLACK);
-		for (i = 0; i < 4; i++)
-		{
+		for (i = 0; i < 4; i++) {
 			page.fillRect(160,78+(i*30),100,25);
 			page.fillRect(560,78+(i*30),100,25);
 			page.fillRect(160,308+(i*30),100,25);
@@ -89,23 +87,20 @@ class TrafficLightPanel extends JPanel
 			page.fillRect(410+(i*30),440,25,100);
 		}
 
-		for (i = 0; i < 3; i++)
-		{
+		for (i = 0; i < 3; i++) {
 			x[0] = 159 - (i * 13); x[1] = 260 - (i * 13); x[2] = 250 - (i * 13); x[3] = 150 - (i * 13);
 			y[0] = 489 + (i * 20); y[1] = 550 + (i * 20); y[2] = 565 + (i * 20); y[3] = 505 + (i * 20);
 			page.fillPolygon(x, y,4);
 		}
 
-		for (i = 0; i < 3; i++)
-		{
+		for (i = 0; i < 3; i++) {
 			x[0] = 159 + (i * 14) + 400; x[1] = 237 + (i * 14) + 400;  x[2] = 247 + (i * 14) + 400; x[3] = 170 + (i * 14) + 400;
 			y[0] = 550 + (i * 20);  y[1] = 489 + (i * 20); y[2] = 505 + (i * 20); y[3] = 565 + (i * 20);
 			page.fillPolygon(x, y,4);
 		}
 
 		page.setFont(new Font("Courier New", Font.CENTER_BASELINE,12));
-		for(i = 0; i < ramzorim.length; i++)
-		{
+		for(i = 0; i < ramzorim.length; i++) {
 			ramzorim[i].draw(page);
 			page.setColor(Color.BLACK);
 			page.drawString(Integer.toString(i),ramzorim[i].xP[0] + ramzorim[i].diameter / 3,ramzorim[i].yP[0] + ramzorim[i].diameter / 2);

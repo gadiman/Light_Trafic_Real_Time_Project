@@ -86,8 +86,6 @@ public class Controller {
                                     if (CheckButtons())
                                         break;
 
-
-
                                     // Sending events for group A - Start working:
                                     evStartWorking[0].sendEvent(false);
                                     evStartWorking[6].sendEvent(false);
@@ -97,7 +95,7 @@ public class Controller {
                                     evStartWorking[12].sendEvent(false);
                                     evStartWorking[13].sendEvent(false);
 
-                                    //enable jest the relevant buttons
+                                    // Enable just the relevant buttons:
                                     buttons[0].setEnabled(true);
                                     buttons[1].setEnabled(true);
                                     buttons[2].setEnabled(false);
@@ -112,7 +110,7 @@ public class Controller {
                                     buttons[6].setEnabled(false);
                                     buttons[7].setEnabled(true);
 
-                                    //moving to Ack_Waiting state
+                                    // Moving to Ack_Waiting state:
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.A;
                                     break;
@@ -154,7 +152,7 @@ public class Controller {
                                     if (CheckButtons())
                                         break;
 
-                                    //sending events for group C - Start working
+                                    // Sending events for group C - Start working:
                                     evStartWorking[2].sendEvent(false);
                                     evStartWorking[3].sendEvent(false);
                                     evStartWorking[4].sendEvent(false);
@@ -165,7 +163,7 @@ public class Controller {
                                     evStartWorking[14].sendEvent(false);
                                     evStartWorking[15].sendEvent(false);
 
-                                    //enable jest the relevant buttons
+                                    // Enable jest the relevant buttons:
                                     buttons[0].setEnabled(false);
                                     buttons[1].setEnabled(false);
                                     buttons[2].setEnabled(true);
@@ -179,7 +177,7 @@ public class Controller {
                                     buttons[10].setEnabled(false);
                                     buttons[11].setEnabled(false);
 
-                                    //Moving to Ack_Waiting state
+                                    // Moving to Ack_Waiting state:
                                     phase = Phase.ACK_WAITING;
                                     numOfPhase = NumOfPhase.C;
                                     break;

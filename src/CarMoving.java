@@ -33,7 +33,7 @@ public class CarMoving extends Thread {
         switch (key) {
             case 1:
                 x = 850;
-                dx = -100;
+                dx = -50;
                 y = 70;
                 dy = 0;
                 break;
@@ -41,43 +41,43 @@ public class CarMoving extends Thread {
                 x = 500;
                 dx = 0;
                 y = 720;
-                dy = -50;
+                dy = -25;
                 break;
             case 3:
                 x = -30;
-                dx = 35;
+                dx = 18;
                 y = 405;
-                dy = 22;
+                dy = 11;
                 break;
             case 4:
                 x = -30;
-                dx = 50;
+                dx = 25;
                 y = 390;
                 dy = 0;
                 break;
             case 5:
-                dx = -50;
+                dx = -25;
                 dy = 0;
                 break;
             case 6:
                 x = 850;
-                dx = -100;
+                dx = -50;
                 y = 150;
                 dy = 0;
                 break;
             case 7:
                 dx = 0;
-                dy = 50;
+                dy = 25;
                 break;
             case 8:
                 x = -30;
-                dx = 50;
+                dx = 25;
                 y = 315;
                 dy = 0;
                 break;
             default:
                 x = 900;
-                dx = -50;
+                dx = -25;
                 y = 100;
                 dy = 0;
                 break;
@@ -94,7 +94,7 @@ public class CarMoving extends Thread {
                 myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
             }
             try {
-                Thread.sleep(200);
+                Thread.sleep(75);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -107,8 +107,8 @@ public class CarMoving extends Thread {
             case 1:
                 return x < -20;
             case 2:
-                if (y > 180)
-                return false;
+                if (y > 150)
+                    return false;
             else {
                 key = 5;
                 setCarLocationAndMoving();
@@ -125,9 +125,10 @@ public class CarMoving extends Thread {
                 }
                 return y > 800;
             case 4:
+            case 8:
                 return x > 800;
             case 5:
-                return x < -20;
+                return x < -40;
             case 6:
                 if (x > 350)
                     return false;
@@ -142,8 +143,6 @@ public class CarMoving extends Thread {
                 }
             case 7:
                 return y > 800;
-            case 8:
-                return x > 800;
         }
         return false;
     }
@@ -151,15 +150,13 @@ public class CarMoving extends Thread {
     private boolean toStop() {
         switch (key) {
             case 1:
+            case 6:
                 return x > 550;
             case 2:
                 return y > 530;
             case 3:
                 return x < 100;
             case 4:
-                return x <= 150;
-            case 6:
-                return x > 550;
             case 8:
                 return x <= 150;
         }
@@ -169,21 +166,18 @@ public class CarMoving extends Thread {
     private ImageIcon getImageIcon() {
         switch (key) {
             case 1:
-                return new ImageIcon("Images/left.gif");
-            case 2:
-                return new ImageIcon("Images/up.gif");
-            case 3:
-                return new ImageIcon("Images/right.gif");
-            case 4:
-                return new ImageIcon("Images/right.gif");
-            case 5:
-                return new ImageIcon("Images/upLeft.gif");
             case 6:
-                return new ImageIcon("Images/left.gif");
-            case 7:
-                return new ImageIcon("Images/leftDown.gif");
+                return new ImageIcon("Images/left.png");
+            case 2:
+                return new ImageIcon("Images/up.png");
+            case 3:
+            case 4:
             case 8:
-                return new ImageIcon("Images/right.gif");
+                return new ImageIcon("Images/right.png");
+            case 5:
+                return new ImageIcon("Images/upLeft.png");
+            case 7:
+                return new ImageIcon("Images/leftDown.png");
             default:
                 break;
         }
